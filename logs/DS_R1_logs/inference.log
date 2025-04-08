@@ -1,0 +1,401 @@
+2025-03-28 15:53:57,418 - inference - INFO - Processed num 1 prompt
+2025-03-28 15:53:57,418 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 15:54:17,947 - inference - INFO - Processed num 1 prompt
+2025-03-28 15:54:17,948 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 15:54:46,317 - inference - INFO - Processed num 1 prompt
+2025-03-28 15:54:46,317 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 15:54:46,317 - inference - INFO - Processing complete for input: 1 prompt
+2025-03-28 15:54:46,317 - inference - INFO - data lenth: 1
+2025-03-28 15:55:24,073 - inference - INFO - Processed num 2 prompt
+2025-03-28 15:55:24,073 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 15:55:40,303 - inference - INFO - Processed num 2 prompt
+2025-03-28 15:55:40,303 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 15:56:08,412 - inference - INFO - Processed num 2 prompt
+2025-03-28 15:56:08,413 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 15:56:08,413 - inference - INFO - Processing complete for input: 2 prompt
+2025-03-28 15:56:08,413 - inference - INFO - data lenth: 2
+2025-03-28 15:57:07,781 - inference - INFO - Processed num 3 prompt
+2025-03-28 15:57:07,781 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 15:57:53,705 - inference - INFO - Processed num 3 prompt
+2025-03-28 15:57:53,706 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 15:58:26,364 - inference - INFO - Processed num 3 prompt
+2025-03-28 15:58:26,364 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 15:58:26,364 - inference - INFO - Processing complete for input: 3 prompt
+2025-03-28 15:58:26,364 - inference - INFO - data lenth: 3
+2025-03-28 15:59:09,585 - inference - INFO - Processed num 4 prompt
+2025-03-28 15:59:09,585 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 15:59:31,489 - inference - INFO - Processed num 4 prompt
+2025-03-28 15:59:31,490 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:00:04,333 - inference - INFO - Processed num 4 prompt
+2025-03-28 16:00:04,333 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:00:04,333 - inference - INFO - Processing complete for input: 4 prompt
+2025-03-28 16:00:04,333 - inference - INFO - data lenth: 4
+2025-03-28 16:00:41,276 - inference - INFO - Processed num 5 prompt
+2025-03-28 16:00:41,276 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:01:04,519 - inference - INFO - Processed num 5 prompt
+2025-03-28 16:01:04,520 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:01:35,072 - inference - INFO - Processed num 5 prompt
+2025-03-28 16:01:35,072 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:01:35,072 - inference - INFO - Processing complete for input: 5 prompt
+2025-03-28 16:01:35,072 - inference - INFO - data lenth: 5
+2025-03-28 16:02:02,171 - inference - INFO - Processed num 6 prompt
+2025-03-28 16:02:02,172 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:02:22,310 - inference - INFO - Processed num 6 prompt
+2025-03-28 16:02:22,311 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:02:58,271 - inference - INFO - Processed num 6 prompt
+2025-03-28 16:02:58,271 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:02:58,271 - inference - INFO - Processing complete for input: 6 prompt
+2025-03-28 16:02:58,271 - inference - INFO - data lenth: 6
+2025-03-28 16:03:47,510 - inference - INFO - Processed num 7 prompt
+2025-03-28 16:03:47,511 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:05:17,038 - inference - INFO - Processed num 7 prompt
+2025-03-28 16:05:17,038 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:06:10,980 - inference - INFO - Processed num 7 prompt
+2025-03-28 16:06:10,980 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:06:10,980 - inference - INFO - Processing complete for input: 7 prompt
+2025-03-28 16:06:10,980 - inference - INFO - data lenth: 7
+2025-03-28 16:07:10,692 - inference - INFO - Processed num 8 prompt
+2025-03-28 16:07:10,693 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:07:36,405 - inference - INFO - Processed num 8 prompt
+2025-03-28 16:07:36,406 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:08:04,712 - inference - INFO - Processed num 8 prompt
+2025-03-28 16:08:04,712 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:08:04,712 - inference - INFO - Processing complete for input: 8 prompt
+2025-03-28 16:08:04,712 - inference - INFO - data lenth: 8
+2025-03-28 16:08:49,429 - inference - INFO - Processed num 9 prompt
+2025-03-28 16:08:49,429 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:09:09,995 - inference - INFO - Processed num 9 prompt
+2025-03-28 16:09:09,995 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:09:54,654 - inference - INFO - Processed num 9 prompt
+2025-03-28 16:09:54,654 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:09:54,654 - inference - INFO - Processing complete for input: 9 prompt
+2025-03-28 16:09:54,654 - inference - INFO - data lenth: 9
+2025-03-28 16:11:01,357 - inference - INFO - Processed num 10 prompt
+2025-03-28 16:11:01,357 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:11:21,671 - inference - INFO - Processed num 10 prompt
+2025-03-28 16:11:21,671 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:11:58,349 - inference - INFO - Processed num 10 prompt
+2025-03-28 16:11:58,350 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:11:58,350 - inference - INFO - Processing complete for input: 10 prompt
+2025-03-28 16:11:58,350 - inference - INFO - data lenth: 10
+2025-03-28 16:13:35,248 - inference - INFO - Processed num 11 prompt
+2025-03-28 16:13:35,249 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:14:04,609 - inference - INFO - Processed num 11 prompt
+2025-03-28 16:14:04,610 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:14:33,329 - inference - INFO - Processed num 11 prompt
+2025-03-28 16:14:33,329 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:14:33,330 - inference - INFO - Processing complete for input: 11 prompt
+2025-03-28 16:14:33,330 - inference - INFO - data lenth: 11
+2025-03-28 16:15:19,653 - inference - INFO - Processed num 12 prompt
+2025-03-28 16:15:19,654 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:15:46,821 - inference - INFO - Processed num 12 prompt
+2025-03-28 16:15:46,821 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:16:29,957 - inference - INFO - Processed num 12 prompt
+2025-03-28 16:16:29,957 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:16:29,957 - inference - INFO - Processing complete for input: 12 prompt
+2025-03-28 16:16:29,957 - inference - INFO - data lenth: 12
+2025-03-28 16:17:18,373 - inference - INFO - Processed num 13 prompt
+2025-03-28 16:17:18,374 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:17:29,144 - inference - INFO - Processed num 13 prompt
+2025-03-28 16:17:29,144 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:18:09,511 - inference - INFO - Processed num 13 prompt
+2025-03-28 16:18:09,512 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:18:09,512 - inference - INFO - Processing complete for input: 13 prompt
+2025-03-28 16:18:09,512 - inference - INFO - data lenth: 13
+2025-03-28 16:19:22,664 - inference - INFO - Processed num 14 prompt
+2025-03-28 16:19:22,664 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:19:45,515 - inference - INFO - Processed num 14 prompt
+2025-03-28 16:19:45,515 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:20:13,804 - inference - INFO - Processed num 14 prompt
+2025-03-28 16:20:13,805 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:20:13,805 - inference - INFO - Processing complete for input: 14 prompt
+2025-03-28 16:20:13,805 - inference - INFO - data lenth: 14
+2025-03-28 16:20:58,558 - inference - INFO - Processed num 15 prompt
+2025-03-28 16:20:58,558 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:21:12,203 - inference - INFO - Processed num 15 prompt
+2025-03-28 16:21:12,204 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:21:47,699 - inference - INFO - Processed num 15 prompt
+2025-03-28 16:21:47,699 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:21:47,699 - inference - INFO - Processing complete for input: 15 prompt
+2025-03-28 16:21:47,699 - inference - INFO - data lenth: 15
+2025-03-28 16:22:40,237 - inference - INFO - Processed num 16 prompt
+2025-03-28 16:22:40,237 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:23:10,262 - inference - INFO - Processed num 16 prompt
+2025-03-28 16:23:10,262 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:23:40,322 - inference - INFO - Processed num 16 prompt
+2025-03-28 16:23:40,323 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:23:40,323 - inference - INFO - Processing complete for input: 16 prompt
+2025-03-28 16:23:40,323 - inference - INFO - data lenth: 16
+2025-03-28 16:24:21,028 - inference - INFO - Processed num 17 prompt
+2025-03-28 16:24:21,029 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:24:38,066 - inference - INFO - Processed num 17 prompt
+2025-03-28 16:24:38,066 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:25:10,716 - inference - INFO - Processed num 17 prompt
+2025-03-28 16:25:10,716 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:25:10,716 - inference - INFO - Processing complete for input: 17 prompt
+2025-03-28 16:25:10,716 - inference - INFO - data lenth: 17
+2025-03-28 16:27:25,670 - inference - INFO - Processed num 18 prompt
+2025-03-28 16:27:25,670 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:27:53,021 - inference - INFO - Processed num 18 prompt
+2025-03-28 16:27:53,022 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:28:36,261 - inference - INFO - Processed num 18 prompt
+2025-03-28 16:28:36,261 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:28:36,261 - inference - INFO - Processing complete for input: 18 prompt
+2025-03-28 16:28:36,261 - inference - INFO - data lenth: 18
+2025-03-28 16:29:16,419 - inference - INFO - Processed num 19 prompt
+2025-03-28 16:29:16,420 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:30:19,404 - inference - INFO - Processed num 19 prompt
+2025-03-28 16:30:19,405 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:31:15,540 - inference - INFO - Processed num 19 prompt
+2025-03-28 16:31:15,540 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:31:15,540 - inference - INFO - Processing complete for input: 19 prompt
+2025-03-28 16:31:15,540 - inference - INFO - data lenth: 19
+2025-03-28 16:31:59,068 - inference - INFO - Processed num 20 prompt
+2025-03-28 16:31:59,069 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:32:30,335 - inference - INFO - Processed num 20 prompt
+2025-03-28 16:32:30,335 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:33:07,332 - inference - INFO - Processed num 20 prompt
+2025-03-28 16:33:07,332 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:33:07,332 - inference - INFO - Processing complete for input: 20 prompt
+2025-03-28 16:33:07,332 - inference - INFO - data lenth: 20
+2025-03-28 16:33:54,823 - inference - INFO - Processed num 21 prompt
+2025-03-28 16:33:54,823 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:34:48,579 - inference - INFO - Processed num 21 prompt
+2025-03-28 16:34:48,579 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:37:18,991 - inference - INFO - Processed num 21 prompt
+2025-03-28 16:37:18,991 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:37:18,991 - inference - INFO - Processing complete for input: 21 prompt
+2025-03-28 16:37:18,991 - inference - INFO - data lenth: 21
+2025-03-28 16:37:57,571 - inference - INFO - Processed num 22 prompt
+2025-03-28 16:37:57,572 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:38:16,142 - inference - INFO - Processed num 22 prompt
+2025-03-28 16:38:16,142 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:38:46,301 - inference - INFO - Processed num 22 prompt
+2025-03-28 16:38:46,302 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:38:46,302 - inference - INFO - Processing complete for input: 22 prompt
+2025-03-28 16:38:46,302 - inference - INFO - data lenth: 22
+2025-03-28 16:39:18,536 - inference - INFO - Processed num 23 prompt
+2025-03-28 16:39:18,536 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:39:29,874 - inference - INFO - Processed num 23 prompt
+2025-03-28 16:39:29,874 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:40:07,711 - inference - INFO - Processed num 23 prompt
+2025-03-28 16:40:07,712 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:40:07,712 - inference - INFO - Processing complete for input: 23 prompt
+2025-03-28 16:40:07,712 - inference - INFO - data lenth: 23
+2025-03-28 16:41:59,715 - inference - INFO - Processed num 24 prompt
+2025-03-28 16:41:59,716 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:42:59,286 - inference - INFO - Processed num 24 prompt
+2025-03-28 16:42:59,287 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:43:36,545 - inference - INFO - Processed num 24 prompt
+2025-03-28 16:43:36,545 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:43:36,545 - inference - INFO - Processing complete for input: 24 prompt
+2025-03-28 16:43:36,545 - inference - INFO - data lenth: 24
+2025-03-28 16:44:07,334 - inference - INFO - Processed num 25 prompt
+2025-03-28 16:44:07,334 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:44:59,174 - inference - INFO - Processed num 25 prompt
+2025-03-28 16:44:59,175 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:45:36,333 - inference - INFO - Processed num 25 prompt
+2025-03-28 16:45:36,334 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:45:36,334 - inference - INFO - Processing complete for input: 25 prompt
+2025-03-28 16:45:36,334 - inference - INFO - data lenth: 25
+2025-03-28 16:46:22,334 - inference - INFO - Processed num 26 prompt
+2025-03-28 16:46:22,334 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:46:45,142 - inference - INFO - Processed num 26 prompt
+2025-03-28 16:46:45,143 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:47:16,213 - inference - INFO - Processed num 26 prompt
+2025-03-28 16:47:16,214 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:47:16,214 - inference - INFO - Processing complete for input: 26 prompt
+2025-03-28 16:47:16,214 - inference - INFO - data lenth: 26
+2025-03-28 16:50:08,125 - inference - INFO - Processed num 27 prompt
+2025-03-28 16:50:08,125 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:51:01,215 - inference - INFO - Processed num 27 prompt
+2025-03-28 16:51:01,215 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:51:27,883 - inference - INFO - Processed num 27 prompt
+2025-03-28 16:51:27,883 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:51:27,884 - inference - INFO - Processing complete for input: 27 prompt
+2025-03-28 16:51:27,884 - inference - INFO - data lenth: 27
+2025-03-28 16:52:04,767 - inference - INFO - Processed num 28 prompt
+2025-03-28 16:52:04,767 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:52:20,030 - inference - INFO - Processed num 28 prompt
+2025-03-28 16:52:20,030 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:52:56,919 - inference - INFO - Processed num 28 prompt
+2025-03-28 16:52:56,919 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:52:56,919 - inference - INFO - Processing complete for input: 28 prompt
+2025-03-28 16:52:56,919 - inference - INFO - data lenth: 28
+2025-03-28 16:54:23,287 - inference - INFO - Processed num 29 prompt
+2025-03-28 16:54:23,288 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:54:41,962 - inference - INFO - Processed num 29 prompt
+2025-03-28 16:54:41,962 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:55:09,676 - inference - INFO - Processed num 29 prompt
+2025-03-28 16:55:09,676 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:55:09,677 - inference - INFO - Processing complete for input: 29 prompt
+2025-03-28 16:55:09,677 - inference - INFO - data lenth: 29
+2025-03-28 16:55:44,182 - inference - INFO - Processed num 30 prompt
+2025-03-28 16:55:44,183 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:56:01,238 - inference - INFO - Processed num 30 prompt
+2025-03-28 16:56:01,238 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:56:51,761 - inference - INFO - Processed num 30 prompt
+2025-03-28 16:56:51,761 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:56:51,761 - inference - INFO - Processing complete for input: 30 prompt
+2025-03-28 16:56:51,761 - inference - INFO - data lenth: 30
+2025-03-28 16:57:20,767 - inference - INFO - Processed num 31 prompt
+2025-03-28 16:57:20,768 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:57:44,060 - inference - INFO - Processed num 31 prompt
+2025-03-28 16:57:44,061 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:58:11,222 - inference - INFO - Processed num 31 prompt
+2025-03-28 16:58:11,223 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:58:11,223 - inference - INFO - Processing complete for input: 31 prompt
+2025-03-28 16:58:11,223 - inference - INFO - data lenth: 31
+2025-03-28 16:58:42,637 - inference - INFO - Processed num 32 prompt
+2025-03-28 16:58:42,638 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 16:59:01,275 - inference - INFO - Processed num 32 prompt
+2025-03-28 16:59:01,276 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 16:59:31,264 - inference - INFO - Processed num 32 prompt
+2025-03-28 16:59:31,265 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 16:59:31,265 - inference - INFO - Processing complete for input: 32 prompt
+2025-03-28 16:59:31,265 - inference - INFO - data lenth: 32
+2025-03-28 17:00:43,807 - inference - INFO - Processed num 33 prompt
+2025-03-28 17:00:43,807 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:01:01,162 - inference - INFO - Processed num 33 prompt
+2025-03-28 17:01:01,162 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:01:31,962 - inference - INFO - Processed num 33 prompt
+2025-03-28 17:01:31,963 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:01:31,963 - inference - INFO - Processing complete for input: 33 prompt
+2025-03-28 17:01:31,963 - inference - INFO - data lenth: 33
+2025-03-28 17:02:20,626 - inference - INFO - Processed num 34 prompt
+2025-03-28 17:02:20,626 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:02:38,974 - inference - INFO - Processed num 34 prompt
+2025-03-28 17:02:38,974 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:03:03,165 - inference - INFO - Processed num 34 prompt
+2025-03-28 17:03:03,165 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:03:03,166 - inference - INFO - Processing complete for input: 34 prompt
+2025-03-28 17:03:03,166 - inference - INFO - data lenth: 34
+2025-03-28 17:03:41,506 - inference - INFO - Processed num 35 prompt
+2025-03-28 17:03:41,506 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:03:58,646 - inference - INFO - Processed num 35 prompt
+2025-03-28 17:03:58,646 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:04:34,241 - inference - INFO - Processed num 35 prompt
+2025-03-28 17:04:34,241 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:04:34,241 - inference - INFO - Processing complete for input: 35 prompt
+2025-03-28 17:04:34,241 - inference - INFO - data lenth: 35
+2025-03-28 17:05:19,085 - inference - INFO - Processed num 36 prompt
+2025-03-28 17:05:19,085 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:05:47,370 - inference - INFO - Processed num 36 prompt
+2025-03-28 17:05:47,370 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:06:56,385 - inference - INFO - Processed num 36 prompt
+2025-03-28 17:06:56,386 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:06:56,386 - inference - INFO - Processing complete for input: 36 prompt
+2025-03-28 17:06:56,386 - inference - INFO - data lenth: 36
+2025-03-28 17:07:39,462 - inference - INFO - Processed num 37 prompt
+2025-03-28 17:07:39,463 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:07:58,885 - inference - INFO - Processed num 37 prompt
+2025-03-28 17:07:58,886 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:08:23,850 - inference - INFO - Processed num 37 prompt
+2025-03-28 17:08:23,850 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:08:23,850 - inference - INFO - Processing complete for input: 37 prompt
+2025-03-28 17:08:23,850 - inference - INFO - data lenth: 37
+2025-03-28 17:08:54,996 - inference - INFO - Processed num 38 prompt
+2025-03-28 17:08:54,997 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:09:18,073 - inference - INFO - Processed num 38 prompt
+2025-03-28 17:09:18,074 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:09:47,802 - inference - INFO - Processed num 38 prompt
+2025-03-28 17:09:47,803 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:09:47,803 - inference - INFO - Processing complete for input: 38 prompt
+2025-03-28 17:09:47,803 - inference - INFO - data lenth: 38
+2025-03-28 17:12:12,580 - inference - INFO - Processed num 39 prompt
+2025-03-28 17:12:12,580 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:12:27,384 - inference - INFO - Processed num 39 prompt
+2025-03-28 17:12:27,384 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:13:08,491 - inference - INFO - Processed num 39 prompt
+2025-03-28 17:13:08,491 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:13:08,491 - inference - INFO - Processing complete for input: 39 prompt
+2025-03-28 17:13:08,491 - inference - INFO - data lenth: 39
+2025-03-28 17:13:53,829 - inference - INFO - Processed num 40 prompt
+2025-03-28 17:13:53,830 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:14:16,991 - inference - INFO - Processed num 40 prompt
+2025-03-28 17:14:16,992 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:14:43,746 - inference - INFO - Processed num 40 prompt
+2025-03-28 17:14:43,746 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:14:43,746 - inference - INFO - Processing complete for input: 40 prompt
+2025-03-28 17:14:43,746 - inference - INFO - data lenth: 40
+2025-03-28 17:16:08,699 - inference - INFO - Processed num 41 prompt
+2025-03-28 17:16:08,699 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:16:53,774 - inference - INFO - Processed num 41 prompt
+2025-03-28 17:16:53,774 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:17:45,328 - inference - INFO - Processed num 41 prompt
+2025-03-28 17:17:45,328 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:17:45,328 - inference - INFO - Processing complete for input: 41 prompt
+2025-03-28 17:17:45,328 - inference - INFO - data lenth: 41
+2025-03-28 17:18:16,808 - inference - INFO - Processed num 42 prompt
+2025-03-28 17:18:16,809 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:18:43,186 - inference - INFO - Processed num 42 prompt
+2025-03-28 17:18:43,187 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:19:11,586 - inference - INFO - Processed num 42 prompt
+2025-03-28 17:19:11,587 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:19:11,587 - inference - INFO - Processing complete for input: 42 prompt
+2025-03-28 17:19:11,587 - inference - INFO - data lenth: 42
+2025-03-28 17:19:57,442 - inference - INFO - Processed num 43 prompt
+2025-03-28 17:19:57,442 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:20:29,658 - inference - INFO - Processed num 43 prompt
+2025-03-28 17:20:29,658 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:21:04,100 - inference - INFO - Processed num 43 prompt
+2025-03-28 17:21:04,101 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:21:04,101 - inference - INFO - Processing complete for input: 43 prompt
+2025-03-28 17:21:04,101 - inference - INFO - data lenth: 43
+2025-03-28 17:21:42,734 - inference - INFO - Processed num 44 prompt
+2025-03-28 17:21:42,734 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:21:56,653 - inference - INFO - Processed num 44 prompt
+2025-03-28 17:21:56,654 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:22:35,403 - inference - INFO - Processed num 44 prompt
+2025-03-28 17:22:35,403 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:22:35,403 - inference - INFO - Processing complete for input: 44 prompt
+2025-03-28 17:22:35,404 - inference - INFO - data lenth: 44
+2025-03-28 17:23:15,177 - inference - INFO - Processed num 45 prompt
+2025-03-28 17:23:15,177 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:24:50,984 - inference - INFO - Processed num 45 prompt
+2025-03-28 17:24:50,985 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:25:19,299 - inference - INFO - Processed num 45 prompt
+2025-03-28 17:25:19,300 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:25:19,300 - inference - INFO - Processing complete for input: 45 prompt
+2025-03-28 17:25:19,300 - inference - INFO - data lenth: 45
+2025-03-28 17:25:51,992 - inference - INFO - Processed num 46 prompt
+2025-03-28 17:25:51,993 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:26:06,988 - inference - INFO - Processed num 46 prompt
+2025-03-28 17:26:06,988 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:26:32,207 - inference - INFO - Processed num 46 prompt
+2025-03-28 17:26:32,207 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:26:32,208 - inference - INFO - Processing complete for input: 46 prompt
+2025-03-28 17:26:32,208 - inference - INFO - data lenth: 46
+2025-03-28 17:27:29,700 - inference - INFO - Processed num 47 prompt
+2025-03-28 17:27:29,700 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:28:16,045 - inference - INFO - Processed num 47 prompt
+2025-03-28 17:28:16,045 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:29:02,300 - inference - INFO - Processed num 47 prompt
+2025-03-28 17:29:02,300 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:29:02,300 - inference - INFO - Processing complete for input: 47 prompt
+2025-03-28 17:29:02,300 - inference - INFO - data lenth: 47
+2025-03-28 17:29:40,893 - inference - INFO - Processed num 48 prompt
+2025-03-28 17:29:40,893 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:29:55,960 - inference - INFO - Processed num 48 prompt
+2025-03-28 17:29:55,960 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:30:30,665 - inference - INFO - Processed num 48 prompt
+2025-03-28 17:30:30,665 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:30:30,665 - inference - INFO - Processing complete for input: 48 prompt
+2025-03-28 17:30:30,665 - inference - INFO - data lenth: 48
+2025-03-28 17:31:34,029 - inference - INFO - Processed num 49 prompt
+2025-03-28 17:31:34,030 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:32:21,553 - inference - INFO - Processed num 49 prompt
+2025-03-28 17:32:21,553 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:33:07,356 - inference - INFO - Processed num 49 prompt
+2025-03-28 17:33:07,356 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:33:07,356 - inference - INFO - Processing complete for input: 49 prompt
+2025-03-28 17:33:07,356 - inference - INFO - data lenth: 49
+2025-03-28 17:40:35,796 - inference - INFO - Processed num 50 prompt
+2025-03-28 17:40:35,797 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-03-28 17:41:10,898 - inference - INFO - Processed num 50 prompt
+2025-03-28 17:41:10,898 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-03-28 17:41:40,696 - inference - INFO - Processed num 50 prompt
+2025-03-28 17:41:40,696 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-03-28 17:41:40,696 - inference - INFO - Processing complete for input: 50 prompt
+2025-03-28 17:41:40,696 - inference - INFO - data lenth: 50
+2025-03-28 17:41:40,697 - inference - INFO - online inference client get 50 data

@@ -1,0 +1,58 @@
+{
+    "local_inference": {
+        "model_config": {
+            "model_path": "/data/hf_cache/models/Qwen/QwQ-32B",
+            "base_url": "http://localhost:8030/v1",
+            "api_token": "token-abc123",
+            "model_name": "/data/hf_cache/models/Qwen/QwQ-32B",
+            "temperature": 0.0,
+            "top_p": 0.9,
+            "max_length": 1024,
+            "do_sample": true,
+            "top_k": 0,
+            "use_beam_search": false,
+            "device_map": "4,5,6,7",
+            "dtype": "auto"
+        },
+        "data": {
+            "transfer_data_path": {
+                "blzd": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_BLZD_444/BLZD_464.json",
+                "grs": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_GRS_464/GRS_464.json",
+                "hys": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_HYS_464/HYS_464.json",
+                "jws": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_JWS_464/JWS_464.json",
+                "ssjl": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_SSJL_464/SSJL_464.json",
+                "xbs": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_XBS_444/XBS_464.json",
+                "yxjc": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_YXJC_464/YXJC_464.json",
+                "zkjc": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_ZKJC_464/ZKJC_464.json"
+            }
+        },
+        "store_transfer_data": {
+            "store_transfer_data_path_dir": "/home/xuhaitong/projects/crm-llm/transfer_CRF/transfer_data/CRF_localtest",
+            "store_transfer_data_file_name": "blzd_CRF_alpaca.json"
+        }
+    },
+    "online_inference": {
+        "model_config": {
+            "base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+            "api_token": "sk-d7b518bdce9c43cba260186ff84cfc2a",
+            "model_name": "qwq-32b",
+            "temperature": 0.0,
+            "top_p": 0.9,
+            "max_tokens": 1024,
+            "seed": 42
+        },
+        "data": {
+            "transfer_data_path": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_BLZD_444/BLZD_464.json"
+        },
+        "prompt": {
+            "prompt_file_dir": "",
+            "prompt_file_name": ""
+        },
+        "store_transfer_data": {
+            "store_transfer_data_path_dir": "/home/xuhaitong/projects/crm-llm/transfer_CRF/transfer_data/CRF_BLZD_Alpaca_online_test"
+        }
+    },
+    "log": {
+        "log_dir": "/home/xuhaitong/projects/crm-llm/transfer_CRF/logs/local_test"
+    }
+}

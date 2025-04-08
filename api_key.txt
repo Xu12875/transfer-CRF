@@ -1,0 +1,13 @@
+QWQ-32B
+model_name = qwq-32b
+"base_url": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+"api_token": "sk-d7b518bdce9c43cba260186ff84cfc2a",
+
+openai gpt-4o
+azure_endpoint = "https://southgene-openai-5.openai.azure.com/",
+api_key="83f73e9a147948f69af9664b2393fc12",
+
+deepseek
+https://api.deepseek.com
+deepseek-chat  deepseek-reasoner
+sk-02d467492ffa4f2e87de4f4ce77c80f8

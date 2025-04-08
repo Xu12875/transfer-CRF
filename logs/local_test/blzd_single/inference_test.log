@@ -1,0 +1,1183 @@
+2025-04-04 00:27:34,892 - inference - INFO - Processed num 1 prompt
+2025-04-04 00:27:34,893 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:28:03,697 - inference - INFO - Processed num 1 prompt
+2025-04-04 00:28:03,697 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:28:22,680 - inference - INFO - Processed num 1 prompt
+2025-04-04 00:28:22,680 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:28:22,680 - inference - INFO - Processing complete for input: 1 prompt
+2025-04-04 00:28:22,680 - inference - INFO - data lenth: 1
+2025-04-04 00:28:53,910 - inference - INFO - Processed num 2 prompt
+2025-04-04 00:28:53,910 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:29:03,478 - inference - INFO - Processed num 2 prompt
+2025-04-04 00:29:03,478 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:29:21,215 - inference - INFO - Processed num 2 prompt
+2025-04-04 00:29:21,215 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:29:21,216 - inference - INFO - Processing complete for input: 2 prompt
+2025-04-04 00:29:21,216 - inference - INFO - data lenth: 2
+2025-04-04 00:29:45,333 - inference - INFO - Processed num 3 prompt
+2025-04-04 00:29:45,334 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:30:18,741 - inference - INFO - Processed num 3 prompt
+2025-04-04 00:30:18,742 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:30:35,798 - inference - INFO - Processed num 3 prompt
+2025-04-04 00:30:35,799 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:30:35,799 - inference - INFO - Processing complete for input: 3 prompt
+2025-04-04 00:30:35,799 - inference - INFO - data lenth: 3
+2025-04-04 00:31:05,161 - inference - INFO - Processed num 4 prompt
+2025-04-04 00:31:05,162 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:31:22,960 - inference - INFO - Processed num 4 prompt
+2025-04-04 00:31:22,960 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:31:40,177 - inference - INFO - Processed num 4 prompt
+2025-04-04 00:31:40,178 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:31:40,178 - inference - INFO - Processing complete for input: 4 prompt
+2025-04-04 00:31:40,178 - inference - INFO - data lenth: 4
+2025-04-04 00:32:03,621 - inference - INFO - Processed num 5 prompt
+2025-04-04 00:32:03,622 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:32:53,343 - inference - ERROR - Error: Expecting value: line 1 column 1 (char 0)
+2025-04-04 00:32:53,343 - inference - ERROR - Unexpected response format from inference_client.get_response: 
+### 任务
+请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：
+### 要求
+1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema
+2. 给你的实体与属性如下：分化信息，HPV，P16，切缘，神经侵犯，脉管侵犯，解剖学部位，解剖学部位:解剖学方位，解剖学部位:原发灶大小，解剖学部位:DOI，淋巴结清扫区域，淋巴结清扫区域:LN清扫方位，淋巴结清扫区域:LN数量，淋巴结清扫区域:颈清直径，淋巴结清扫区域:阳性LN数量，淋巴结清扫区域:胞膜外侵犯
+3.若没有提及"阳性LN数量"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"的为空
+4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米
+5.若没有文本输入则全部判断为当前json schema 数据为空
+6.严格按照json shcema进行填写，不得出现填写非json schema的内容
+7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写
+8.请你根据以上要求以及JSON schema对输入的文本进行信息抽取
+JSON schema 如下：
+{
+  "$defs": {
+    "LymphNodeAttributes": {
+      "properties": {
+        "阳性淋巴结位置": {
+          "enum": [
+            "左侧",
+            "右侧",
+            "双侧",
+            "不详"
+          ],
+          "title": "阳性淋巴结位置",
+          "type": "string"
+        },
+        "阳性淋巴结数量": {
+          "maximum": 999,
+          "minimum": 0,
+          "title": "阳性淋巴结数量",
+          "type": "integer"
+        },
+        "淋巴结总数量": {
+          "maximum": 999,
+          "minimum": 0,
+          "title": "淋巴结总数量",
+          "type": "integer"
+        },
+        "阳性淋巴结直径": {
+          "enum": [
+            "≤3",
+            "≤6（＞3）",
+            "＞6",
+            "不详"
+          ],
+          "title": "阳性淋巴结直径",
+          "type": "string"
+        },
+        "包膜外侵犯": {
+          "title": "包膜外侵犯",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "阳性淋巴结位置",
+        "阳性淋巴结数量",
+        "淋巴结总数量",
+        "阳性淋巴结直径",
+        "包膜外侵犯"
+      ],
+      "title": "LymphNodeAttributes",
+      "type": "object"
+    },
+    "LymphNodeDescription": {
+      "properties": {
+        "阳性淋巴结区域": {
+          "$ref": "#/$defs/LymphNodeRegion"
+        },
+        "属性信息": {
+          "$ref": "#/$defs/LymphNodeAttributes"
+        }
+      },
+      "required": [
+        "阳性淋巴结区域",
+        "属性信息"
+      ],
+      "title": "LymphNodeDescription",
+      "type": "object"
+    },
+    "LymphNodeRegion": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "I区": {
+          "default": false,
+          "title": "I区",
+          "type": "boolean"
+        },
+        "II区": {
+          "default": false,
+          "title": "Ii区",
+          "type": "boolean"
+        },
+        "III区": {
+          "default": false,
+          "title": "Iii区",
+          "type": "boolean"
+        },
+        "IV区": {
+          "default": false,
+          "title": "Iv区",
+          "type": "boolean"
+        },
+        "V区": {
+          "default": false,
+          "title": "V区",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "LymphNodeRegion",
+      "type": "object"
+    },
+    "OtherOption": {
+      "properties": {
+        "是否选择": {
+          "default": false,
+          "title": "是否选择",
+          "type": "boolean"
+        },
+        "说明": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "其他部位需填写文字说明",
+          "title": "说明"
+        }
+      },
+      "title": "OtherOption",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "阳性淋巴结描述信息": {
+      "items": {
+        "$ref": "#/$defs/LymphNodeDescription"
+      },
+      "title": "阳性淋巴结描述信息",
+      "type": "array"
+    }
+  },
+  "required": [
+    "阳性淋巴结描述信息"
+  ],
+  "title": "LymphNodeDescription",
+  "type": "object"
+}
+### 输入文本
+[['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:4', '淋巴结清扫区域:颈清直径:0.8-1.5cm'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:4'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN数量:3', '淋巴结清扫区域:颈清直径:0.3-0.6cm'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:3'], ['淋巴结清扫区域:I', '淋巴结清扫区域:LN数量:4', '淋巴结清扫区域:颈清直径:0.3-1cm'], ['淋巴结清扫区域:I', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:4'], ['淋巴结清扫区域:III', '淋巴结清扫区域:LN数量:3', '淋巴结清扫区域:颈清直径:0.3-0.6cm'], ['淋巴结清扫区域:III', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:3'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:4', '淋巴结清扫区域:颈清直径:0.8-1.5cm'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:4']]
+2025-04-04 00:33:12,132 - inference - INFO - Processed num 5 prompt
+2025-04-04 00:33:12,132 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:33:12,132 - inference - INFO - Processing complete for input: 5 prompt
+2025-04-04 00:33:12,133 - inference - INFO - data lenth: 5
+2025-04-04 00:33:41,841 - inference - INFO - Processed num 6 prompt
+2025-04-04 00:33:41,842 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:33:51,301 - inference - INFO - Processed num 6 prompt
+2025-04-04 00:33:51,301 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:34:08,853 - inference - INFO - Processed num 6 prompt
+2025-04-04 00:34:08,853 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:34:08,853 - inference - INFO - Processing complete for input: 6 prompt
+2025-04-04 00:34:08,853 - inference - INFO - data lenth: 6
+2025-04-04 00:34:42,521 - inference - INFO - Processed num 7 prompt
+2025-04-04 00:34:42,522 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:35:26,055 - inference - INFO - Processed num 7 prompt
+2025-04-04 00:35:26,056 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:35:43,162 - inference - INFO - Processed num 7 prompt
+2025-04-04 00:35:43,162 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:35:43,162 - inference - INFO - Processing complete for input: 7 prompt
+2025-04-04 00:35:43,162 - inference - INFO - data lenth: 7
+2025-04-04 00:36:05,169 - inference - INFO - Processed num 8 prompt
+2025-04-04 00:36:05,169 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:36:23,144 - inference - INFO - Processed num 8 prompt
+2025-04-04 00:36:23,144 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:36:39,036 - inference - INFO - Processed num 8 prompt
+2025-04-04 00:36:39,037 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:36:39,037 - inference - INFO - Processing complete for input: 8 prompt
+2025-04-04 00:36:39,037 - inference - INFO - data lenth: 8
+2025-04-04 00:37:05,893 - inference - INFO - Processed num 9 prompt
+2025-04-04 00:37:05,894 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:37:15,472 - inference - INFO - Processed num 9 prompt
+2025-04-04 00:37:15,472 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:37:34,044 - inference - INFO - Processed num 9 prompt
+2025-04-04 00:37:34,045 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:37:34,045 - inference - INFO - Processing complete for input: 9 prompt
+2025-04-04 00:37:34,045 - inference - INFO - data lenth: 9
+2025-04-04 00:38:18,594 - inference - ERROR - Error: Expecting value: line 1 column 1 (char 0)
+2025-04-04 00:38:18,595 - inference - ERROR - Unexpected response format from inference_client.get_response: 
+### 任务
+请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：
+### 要求
+1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema
+2. 给你的实体与属性如下：分化信息，HPV，P16，切缘，神经侵犯，脉管侵犯，解剖学部位，解剖学部位:解剖学方位，解剖学部位:原发灶大小，解剖学部位:DOI，淋巴结清扫区域，淋巴结清扫区域:LN清扫方位，淋巴结清扫区域:LN数量，淋巴结清扫区域:颈清直径，淋巴结清扫区域:阳性LN数量，淋巴结清扫区域:胞膜外侵犯
+3.若没有提及"阳性LN数量"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"的为空
+4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米
+5.若没有文本输入则全部判断为当前json schema 数据为空
+6.严格按照json shcema进行填写，不得出现填写非json schema的内容
+7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写
+8.请你根据以上要求以及JSON schema对输入的文本进行信息抽取
+JSON schema 如下：
+{
+  "$defs": {
+    "AnatomicalSiteAttributes": {
+      "properties": {
+        "肿瘤位置": {
+          "enum": [
+            "左侧",
+            "右侧",
+            "双侧",
+            "不详"
+          ],
+          "title": "肿瘤位置",
+          "type": "string"
+        },
+        "肿瘤大小": {
+          "enum": [
+            "≤2",
+            "≤4（＞2）",
+            "＞4",
+            "不详"
+          ],
+          "title": "肿瘤大小",
+          "type": "string"
+        },
+        "浸润深度": {
+          "enum": [
+            "≤5",
+            "≤10（＞5）",
+            "＞10",
+            "不详"
+          ],
+          "title": "浸润深度",
+          "type": "string"
+        },
+        "累及部位": {
+          "$ref": "#/$defs/InvolvedSite"
+        }
+      },
+      "required": [
+        "肿瘤位置",
+        "肿瘤大小",
+        "浸润深度",
+        "累及部位"
+      ],
+      "title": "AnatomicalSiteAttributes",
+      "type": "object"
+    },
+    "AnatomicalSiteDescription": {
+      "properties": {
+        "原发部位": {
+          "$ref": "#/$defs/AnatomicalSiteRegion"
+        },
+        "属性信息": {
+          "$ref": "#/$defs/AnatomicalSiteAttributes"
+        }
+      },
+      "required": [
+        "原发部位",
+        "属性信息"
+      ],
+      "title": "AnatomicalSiteDescription",
+      "type": "object"
+    },
+    "AnatomicalSiteRegion": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "唇": {
+          "default": false,
+          "title": "唇",
+          "type": "boolean"
+        },
+        "颊": {
+          "default": false,
+          "title": "颊",
+          "type": "boolean"
+        },
+        "舌": {
+          "default": false,
+          "title": "舌",
+          "type": "boolean"
+        },
+        "腭": {
+          "default": false,
+          "title": "腭",
+          "type": "boolean"
+        },
+        "口咽": {
+          "default": false,
+          "title": "口咽",
+          "type": "boolean"
+        },
+        "口底": {
+          "default": false,
+          "title": "口底",
+          "type": "boolean"
+        },
+        "颌骨": {
+          "default": false,
+          "title": "颌骨",
+          "type": "boolean"
+        },
+        "牙龈": {
+          "default": false,
+          "title": "牙龈",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "AnatomicalSiteRegion",
+      "type": "object"
+    },
+    "InvolvedSite": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "皮质骨": {
+          "default": false,
+          "title": "皮质骨",
+          "type": "boolean"
+        },
+        "下牙槽神经管": {
+          "default": false,
+          "title": "下牙槽神经管",
+          "type": "boolean"
+        },
+        "口底部": {
+          "default": false,
+          "title": "口底部",
+          "type": "boolean"
+        },
+        "面部皮肤": {
+          "default": false,
+          "title": "面部皮肤",
+          "type": "boolean"
+        },
+        "舌外肌": {
+          "default": false,
+          "title": "舌外肌",
+          "type": "boolean"
+        },
+        "上颌窦": {
+          "default": false,
+          "title": "上颌窦",
+          "type": "boolean"
+        },
+        "咀嚼肌间隙": {
+          "default": false,
+          "title": "咀嚼肌间隙",
+          "type": "boolean"
+        },
+        "翼状板": {
+          "default": false,
+          "title": "翼状板",
+          "type": "boolean"
+        },
+        "颅底": {
+          "default": false,
+          "title": "颅底",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "InvolvedSite",
+      "type": "object"
+    },
+    "OtherOption": {
+      "properties": {
+        "是否选择": {
+          "default": false,
+          "title": "是否选择",
+          "type": "boolean"
+        },
+        "说明": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "其他部位需填写文字说明",
+          "title": "说明"
+        }
+      },
+      "title": "OtherOption",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "解剖学部位描述信息": {
+      "items": {
+        "$ref": "#/$defs/AnatomicalSiteDescription"
+      },
+      "title": "解剖学部位描述信息",
+      "type": "array"
+    }
+  },
+  "required": [
+    "解剖学部位描述信息"
+  ],
+  "title": "AnatomicalSiteDescription",
+  "type": "object"
+}
+### 输入文本
+[['解剖学部位:上腭', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:1.5*0.8*0.2cm'], ['解剖学部位:上腭', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:5.5*4*1.5cm'], ['解剖学部位:上腭2', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:5.5*4*1.5cm', '解剖学部位:DOI:DOI:大于10mm'], ['解剖学部位:上腭1', '解剖学部位:解剖学方位:左']]
+2025-04-04 00:38:35,015 - inference - INFO - Processed num 10 prompt
+2025-04-04 00:38:35,015 - inference - INFO - processed part: dict_keys(['阳性淋巴结描述信息'])
+2025-04-04 00:38:51,233 - inference - INFO - Processed num 10 prompt
+2025-04-04 00:38:51,234 - inference - INFO - processed part: dict_keys(['阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:38:51,234 - inference - INFO - Processing complete for input: 10 prompt
+2025-04-04 00:38:51,234 - inference - INFO - data lenth: 10
+2025-04-04 00:39:12,061 - inference - INFO - Processed num 11 prompt
+2025-04-04 00:39:12,062 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:39:32,268 - inference - INFO - Processed num 11 prompt
+2025-04-04 00:39:32,268 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:39:52,925 - inference - INFO - Processed num 11 prompt
+2025-04-04 00:39:52,925 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:39:52,925 - inference - INFO - Processing complete for input: 11 prompt
+2025-04-04 00:39:52,925 - inference - INFO - data lenth: 11
+2025-04-04 00:40:13,361 - inference - INFO - Processed num 12 prompt
+2025-04-04 00:40:13,361 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:41:01,460 - inference - INFO - Processed num 12 prompt
+2025-04-04 00:41:01,461 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:41:20,187 - inference - INFO - Processed num 12 prompt
+2025-04-04 00:41:20,187 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:41:20,187 - inference - INFO - Processing complete for input: 12 prompt
+2025-04-04 00:41:20,187 - inference - INFO - data lenth: 12
+2025-04-04 00:42:00,037 - inference - ERROR - Error: Expecting value: line 1 column 1 (char 0)
+2025-04-04 00:42:00,038 - inference - ERROR - Unexpected response format from inference_client.get_response: 
+### 任务
+请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：
+### 要求
+1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema
+2. 给你的实体与属性如下：分化信息，HPV，P16，切缘，神经侵犯，脉管侵犯，解剖学部位，解剖学部位:解剖学方位，解剖学部位:原发灶大小，解剖学部位:DOI，淋巴结清扫区域，淋巴结清扫区域:LN清扫方位，淋巴结清扫区域:LN数量，淋巴结清扫区域:颈清直径，淋巴结清扫区域:阳性LN数量，淋巴结清扫区域:胞膜外侵犯
+3.若没有提及"阳性LN数量"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"的为空
+4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米
+5.若没有文本输入则全部判断为当前json schema 数据为空
+6.严格按照json shcema进行填写，不得出现填写非json schema的内容
+7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写
+8.请你根据以上要求以及JSON schema对输入的文本进行信息抽取
+JSON schema 如下：
+{
+  "$defs": {
+    "AnatomicalSiteAttributes": {
+      "properties": {
+        "肿瘤位置": {
+          "enum": [
+            "左侧",
+            "右侧",
+            "双侧",
+            "不详"
+          ],
+          "title": "肿瘤位置",
+          "type": "string"
+        },
+        "肿瘤大小": {
+          "enum": [
+            "≤2",
+            "≤4（＞2）",
+            "＞4",
+            "不详"
+          ],
+          "title": "肿瘤大小",
+          "type": "string"
+        },
+        "浸润深度": {
+          "enum": [
+            "≤5",
+            "≤10（＞5）",
+            "＞10",
+            "不详"
+          ],
+          "title": "浸润深度",
+          "type": "string"
+        },
+        "累及部位": {
+          "$ref": "#/$defs/InvolvedSite"
+        }
+      },
+      "required": [
+        "肿瘤位置",
+        "肿瘤大小",
+        "浸润深度",
+        "累及部位"
+      ],
+      "title": "AnatomicalSiteAttributes",
+      "type": "object"
+    },
+    "AnatomicalSiteDescription": {
+      "properties": {
+        "原发部位": {
+          "$ref": "#/$defs/AnatomicalSiteRegion"
+        },
+        "属性信息": {
+          "$ref": "#/$defs/AnatomicalSiteAttributes"
+        }
+      },
+      "required": [
+        "原发部位",
+        "属性信息"
+      ],
+      "title": "AnatomicalSiteDescription",
+      "type": "object"
+    },
+    "AnatomicalSiteRegion": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "唇": {
+          "default": false,
+          "title": "唇",
+          "type": "boolean"
+        },
+        "颊": {
+          "default": false,
+          "title": "颊",
+          "type": "boolean"
+        },
+        "舌": {
+          "default": false,
+          "title": "舌",
+          "type": "boolean"
+        },
+        "腭": {
+          "default": false,
+          "title": "腭",
+          "type": "boolean"
+        },
+        "口咽": {
+          "default": false,
+          "title": "口咽",
+          "type": "boolean"
+        },
+        "口底": {
+          "default": false,
+          "title": "口底",
+          "type": "boolean"
+        },
+        "颌骨": {
+          "default": false,
+          "title": "颌骨",
+          "type": "boolean"
+        },
+        "牙龈": {
+          "default": false,
+          "title": "牙龈",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "AnatomicalSiteRegion",
+      "type": "object"
+    },
+    "InvolvedSite": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "皮质骨": {
+          "default": false,
+          "title": "皮质骨",
+          "type": "boolean"
+        },
+        "下牙槽神经管": {
+          "default": false,
+          "title": "下牙槽神经管",
+          "type": "boolean"
+        },
+        "口底部": {
+          "default": false,
+          "title": "口底部",
+          "type": "boolean"
+        },
+        "面部皮肤": {
+          "default": false,
+          "title": "面部皮肤",
+          "type": "boolean"
+        },
+        "舌外肌": {
+          "default": false,
+          "title": "舌外肌",
+          "type": "boolean"
+        },
+        "上颌窦": {
+          "default": false,
+          "title": "上颌窦",
+          "type": "boolean"
+        },
+        "咀嚼肌间隙": {
+          "default": false,
+          "title": "咀嚼肌间隙",
+          "type": "boolean"
+        },
+        "翼状板": {
+          "default": false,
+          "title": "翼状板",
+          "type": "boolean"
+        },
+        "颅底": {
+          "default": false,
+          "title": "颅底",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "InvolvedSite",
+      "type": "object"
+    },
+    "OtherOption": {
+      "properties": {
+        "是否选择": {
+          "default": false,
+          "title": "是否选择",
+          "type": "boolean"
+        },
+        "说明": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "其他部位需填写文字说明",
+          "title": "说明"
+        }
+      },
+      "title": "OtherOption",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "解剖学部位描述信息": {
+      "items": {
+        "$ref": "#/$defs/AnatomicalSiteDescription"
+      },
+      "title": "解剖学部位描述信息",
+      "type": "array"
+    }
+  },
+  "required": [
+    "解剖学部位描述信息"
+  ],
+  "title": "AnatomicalSiteDescription",
+  "type": "object"
+}
+### 输入文本
+[['解剖学部位:上颌', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:1.6*0.9*0.2cm'], ['解剖学部位:下龈颊沟', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:1*1*0.7cm'], ['解剖学部位:下龈颊沟', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:1*1*0.7cm'], ['解剖学部位:磨牙后区', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:2*1*0.4cm'], ['解剖学部位:上颌', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:4.5*3.5*1.5cm'], ['解剖学部位:上颌', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:4.5*3.5*1.5cm'], ['解剖学部位:磨牙后区', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:2*1*0.4cm'], ['解剖学部位:海绵窦', '解剖学部位:原发灶大小:2.5*2*0.6cm'], ['解剖学部位:海绵窦', '解剖学部位:原发灶大小:2.5*2*0.6cm'], ['解剖学部位:颅底', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:4.5*2.5*1cm']]
+2025-04-04 00:42:09,536 - inference - INFO - Processed num 13 prompt
+2025-04-04 00:42:09,537 - inference - INFO - processed part: dict_keys(['阳性淋巴结描述信息'])
+2025-04-04 00:42:43,574 - inference - INFO - Processed num 13 prompt
+2025-04-04 00:42:43,575 - inference - INFO - processed part: dict_keys(['阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:42:43,575 - inference - INFO - Processing complete for input: 13 prompt
+2025-04-04 00:42:43,575 - inference - INFO - data lenth: 13
+2025-04-04 00:43:26,474 - inference - INFO - Processed num 14 prompt
+2025-04-04 00:43:26,474 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:43:40,800 - inference - INFO - Processed num 14 prompt
+2025-04-04 00:43:40,800 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:43:56,124 - inference - INFO - Processed num 14 prompt
+2025-04-04 00:43:56,124 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:43:56,124 - inference - INFO - Processing complete for input: 14 prompt
+2025-04-04 00:43:56,124 - inference - INFO - data lenth: 14
+2025-04-04 00:44:13,149 - inference - INFO - Processed num 15 prompt
+2025-04-04 00:44:13,150 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:44:23,128 - inference - INFO - Processed num 15 prompt
+2025-04-04 00:44:23,129 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:44:42,891 - inference - INFO - Processed num 15 prompt
+2025-04-04 00:44:42,891 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:44:42,891 - inference - INFO - Processing complete for input: 15 prompt
+2025-04-04 00:44:42,891 - inference - INFO - data lenth: 15
+2025-04-04 00:45:02,105 - inference - INFO - Processed num 16 prompt
+2025-04-04 00:45:02,106 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:45:47,025 - inference - INFO - Processed num 16 prompt
+2025-04-04 00:45:47,025 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:46:11,215 - inference - INFO - Processed num 16 prompt
+2025-04-04 00:46:11,216 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:46:11,216 - inference - INFO - Processing complete for input: 16 prompt
+2025-04-04 00:46:11,216 - inference - INFO - data lenth: 16
+2025-04-04 00:46:30,041 - inference - INFO - Processed num 17 prompt
+2025-04-04 00:46:30,041 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:46:46,263 - inference - INFO - Processed num 17 prompt
+2025-04-04 00:46:46,263 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:47:02,904 - inference - INFO - Processed num 17 prompt
+2025-04-04 00:47:02,904 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:47:02,904 - inference - INFO - Processing complete for input: 17 prompt
+2025-04-04 00:47:02,904 - inference - INFO - data lenth: 17
+2025-04-04 00:47:48,273 - inference - ERROR - Error: Expecting value: line 1 column 1 (char 0)
+2025-04-04 00:47:48,274 - inference - ERROR - Unexpected response format from inference_client.get_response: 
+### 任务
+请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：
+### 要求
+1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema
+2. 给你的实体与属性如下：分化信息，HPV，P16，切缘，神经侵犯，脉管侵犯，解剖学部位，解剖学部位:解剖学方位，解剖学部位:原发灶大小，解剖学部位:DOI，淋巴结清扫区域，淋巴结清扫区域:LN清扫方位，淋巴结清扫区域:LN数量，淋巴结清扫区域:颈清直径，淋巴结清扫区域:阳性LN数量，淋巴结清扫区域:胞膜外侵犯
+3.若没有提及"阳性LN数量"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"的为空
+4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米
+5.若没有文本输入则全部判断为当前json schema 数据为空
+6.严格按照json shcema进行填写，不得出现填写非json schema的内容
+7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写
+8.请你根据以上要求以及JSON schema对输入的文本进行信息抽取
+JSON schema 如下：
+{
+  "$defs": {
+    "AnatomicalSiteAttributes": {
+      "properties": {
+        "肿瘤位置": {
+          "enum": [
+            "左侧",
+            "右侧",
+            "双侧",
+            "不详"
+          ],
+          "title": "肿瘤位置",
+          "type": "string"
+        },
+        "肿瘤大小": {
+          "enum": [
+            "≤2",
+            "≤4（＞2）",
+            "＞4",
+            "不详"
+          ],
+          "title": "肿瘤大小",
+          "type": "string"
+        },
+        "浸润深度": {
+          "enum": [
+            "≤5",
+            "≤10（＞5）",
+            "＞10",
+            "不详"
+          ],
+          "title": "浸润深度",
+          "type": "string"
+        },
+        "累及部位": {
+          "$ref": "#/$defs/InvolvedSite"
+        }
+      },
+      "required": [
+        "肿瘤位置",
+        "肿瘤大小",
+        "浸润深度",
+        "累及部位"
+      ],
+      "title": "AnatomicalSiteAttributes",
+      "type": "object"
+    },
+    "AnatomicalSiteDescription": {
+      "properties": {
+        "原发部位": {
+          "$ref": "#/$defs/AnatomicalSiteRegion"
+        },
+        "属性信息": {
+          "$ref": "#/$defs/AnatomicalSiteAttributes"
+        }
+      },
+      "required": [
+        "原发部位",
+        "属性信息"
+      ],
+      "title": "AnatomicalSiteDescription",
+      "type": "object"
+    },
+    "AnatomicalSiteRegion": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "唇": {
+          "default": false,
+          "title": "唇",
+          "type": "boolean"
+        },
+        "颊": {
+          "default": false,
+          "title": "颊",
+          "type": "boolean"
+        },
+        "舌": {
+          "default": false,
+          "title": "舌",
+          "type": "boolean"
+        },
+        "腭": {
+          "default": false,
+          "title": "腭",
+          "type": "boolean"
+        },
+        "口咽": {
+          "default": false,
+          "title": "口咽",
+          "type": "boolean"
+        },
+        "口底": {
+          "default": false,
+          "title": "口底",
+          "type": "boolean"
+        },
+        "颌骨": {
+          "default": false,
+          "title": "颌骨",
+          "type": "boolean"
+        },
+        "牙龈": {
+          "default": false,
+          "title": "牙龈",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "AnatomicalSiteRegion",
+      "type": "object"
+    },
+    "InvolvedSite": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "皮质骨": {
+          "default": false,
+          "title": "皮质骨",
+          "type": "boolean"
+        },
+        "下牙槽神经管": {
+          "default": false,
+          "title": "下牙槽神经管",
+          "type": "boolean"
+        },
+        "口底部": {
+          "default": false,
+          "title": "口底部",
+          "type": "boolean"
+        },
+        "面部皮肤": {
+          "default": false,
+          "title": "面部皮肤",
+          "type": "boolean"
+        },
+        "舌外肌": {
+          "default": false,
+          "title": "舌外肌",
+          "type": "boolean"
+        },
+        "上颌窦": {
+          "default": false,
+          "title": "上颌窦",
+          "type": "boolean"
+        },
+        "咀嚼肌间隙": {
+          "default": false,
+          "title": "咀嚼肌间隙",
+          "type": "boolean"
+        },
+        "翼状板": {
+          "default": false,
+          "title": "翼状板",
+          "type": "boolean"
+        },
+        "颅底": {
+          "default": false,
+          "title": "颅底",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "InvolvedSite",
+      "type": "object"
+    },
+    "OtherOption": {
+      "properties": {
+        "是否选择": {
+          "default": false,
+          "title": "是否选择",
+          "type": "boolean"
+        },
+        "说明": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "其他部位需填写文字说明",
+          "title": "说明"
+        }
+      },
+      "title": "OtherOption",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "解剖学部位描述信息": {
+      "items": {
+        "$ref": "#/$defs/AnatomicalSiteDescription"
+      },
+      "title": "解剖学部位描述信息",
+      "type": "array"
+    }
+  },
+  "required": [
+    "解剖学部位描述信息"
+  ],
+  "title": "AnatomicalSiteDescription",
+  "type": "object"
+}
+### 输入文本
+[['解剖学部位:舌', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:3.7*3.5*1.7cm'], ['解剖学部位:口底', '解剖学部位:原发灶大小:3.7*3.5*1.7cm'], ['解剖学部位:舌', '解剖学部位:解剖学方位:左', '解剖学部位:原发灶大小:3.7*3.5*1.7cm'], ['解剖学部位:口底', '解剖学部位:原发灶大小:3.7*3.5*1.7cm']]
+2025-04-04 00:47:58,104 - inference - INFO - Processed num 18 prompt
+2025-04-04 00:47:58,105 - inference - INFO - processed part: dict_keys(['阳性淋巴结描述信息'])
+2025-04-04 00:48:22,891 - inference - INFO - Processed num 18 prompt
+2025-04-04 00:48:22,892 - inference - INFO - processed part: dict_keys(['阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:48:22,892 - inference - INFO - Processing complete for input: 18 prompt
+2025-04-04 00:48:22,892 - inference - INFO - data lenth: 18
+2025-04-04 00:48:46,805 - inference - INFO - Processed num 19 prompt
+2025-04-04 00:48:46,805 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:49:11,289 - inference - INFO - Processed num 19 prompt
+2025-04-04 00:49:11,289 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:49:26,734 - inference - INFO - Processed num 19 prompt
+2025-04-04 00:49:26,735 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:49:26,735 - inference - INFO - Processing complete for input: 19 prompt
+2025-04-04 00:49:26,735 - inference - INFO - data lenth: 19
+2025-04-04 00:49:48,293 - inference - INFO - Processed num 20 prompt
+2025-04-04 00:49:48,294 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:50:34,421 - inference - ERROR - Error: Expecting value: line 1 column 1 (char 0)
+2025-04-04 00:50:34,421 - inference - ERROR - Unexpected response format from inference_client.get_response: 
+### 任务
+请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：
+### 要求
+1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema
+2. 给你的实体与属性如下：分化信息，HPV，P16，切缘，神经侵犯，脉管侵犯，解剖学部位，解剖学部位:解剖学方位，解剖学部位:原发灶大小，解剖学部位:DOI，淋巴结清扫区域，淋巴结清扫区域:LN清扫方位，淋巴结清扫区域:LN数量，淋巴结清扫区域:颈清直径，淋巴结清扫区域:阳性LN数量，淋巴结清扫区域:胞膜外侵犯
+3.若没有提及"阳性LN数量"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"的为空
+4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米
+5.若没有文本输入则全部判断为当前json schema 数据为空
+6.严格按照json shcema进行填写，不得出现填写非json schema的内容
+7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写
+8.请你根据以上要求以及JSON schema对输入的文本进行信息抽取
+JSON schema 如下：
+{
+  "$defs": {
+    "LymphNodeAttributes": {
+      "properties": {
+        "阳性淋巴结位置": {
+          "enum": [
+            "左侧",
+            "右侧",
+            "双侧",
+            "不详"
+          ],
+          "title": "阳性淋巴结位置",
+          "type": "string"
+        },
+        "阳性淋巴结数量": {
+          "maximum": 999,
+          "minimum": 0,
+          "title": "阳性淋巴结数量",
+          "type": "integer"
+        },
+        "淋巴结总数量": {
+          "maximum": 999,
+          "minimum": 0,
+          "title": "淋巴结总数量",
+          "type": "integer"
+        },
+        "阳性淋巴结直径": {
+          "enum": [
+            "≤3",
+            "≤6（＞3）",
+            "＞6",
+            "不详"
+          ],
+          "title": "阳性淋巴结直径",
+          "type": "string"
+        },
+        "包膜外侵犯": {
+          "title": "包膜外侵犯",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "阳性淋巴结位置",
+        "阳性淋巴结数量",
+        "淋巴结总数量",
+        "阳性淋巴结直径",
+        "包膜外侵犯"
+      ],
+      "title": "LymphNodeAttributes",
+      "type": "object"
+    },
+    "LymphNodeDescription": {
+      "properties": {
+        "阳性淋巴结区域": {
+          "$ref": "#/$defs/LymphNodeRegion"
+        },
+        "属性信息": {
+          "$ref": "#/$defs/LymphNodeAttributes"
+        }
+      },
+      "required": [
+        "阳性淋巴结区域",
+        "属性信息"
+      ],
+      "title": "LymphNodeDescription",
+      "type": "object"
+    },
+    "LymphNodeRegion": {
+      "properties": {
+        "不详": {
+          "default": false,
+          "title": "不详",
+          "type": "boolean"
+        },
+        "I区": {
+          "default": false,
+          "title": "I区",
+          "type": "boolean"
+        },
+        "II区": {
+          "default": false,
+          "title": "Ii区",
+          "type": "boolean"
+        },
+        "III区": {
+          "default": false,
+          "title": "Iii区",
+          "type": "boolean"
+        },
+        "IV区": {
+          "default": false,
+          "title": "Iv区",
+          "type": "boolean"
+        },
+        "V区": {
+          "default": false,
+          "title": "V区",
+          "type": "boolean"
+        },
+        "其他": {
+          "$ref": "#/$defs/OtherOption"
+        }
+      },
+      "title": "LymphNodeRegion",
+      "type": "object"
+    },
+    "OtherOption": {
+      "properties": {
+        "是否选择": {
+          "default": false,
+          "title": "是否选择",
+          "type": "boolean"
+        },
+        "说明": {
+          "anyOf": [
+            {
+              "maxLength": 100,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "description": "其他部位需填写文字说明",
+          "title": "说明"
+        }
+      },
+      "title": "OtherOption",
+      "type": "object"
+    }
+  },
+  "properties": {
+    "阳性淋巴结描述信息": {
+      "items": {
+        "$ref": "#/$defs/LymphNodeDescription"
+      },
+      "title": "阳性淋巴结描述信息",
+      "type": "array"
+    }
+  },
+  "required": [
+    "阳性淋巴结描述信息"
+  ],
+  "title": "LymphNodeDescription",
+  "type": "object"
+}
+### 输入文本
+[['淋巴结清扫区域:I', '淋巴结清扫区域:LN清扫方位:左', '淋巴结清扫区域:LN数量:9', '淋巴结清扫区域:颈清直径:0.5-1.7cm'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:左', '淋巴结清扫区域:LN数量:9', '淋巴结清扫区域:颈清直径:0.6-2.3cm'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:10', '淋巴结清扫区域:颈清直径:0.5-2.2cm'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:左', '淋巴结清扫区域:LN数量:11', '淋巴结清扫区域:阳性LN数量:2'], ['淋巴结清扫区域:III', '淋巴结清扫区域:LN清扫方位:左', '淋巴结清扫区域:LN数量:10', '淋巴结清扫区域:颈清直径:0.4-1.8cm'], ['淋巴结清扫区域:III', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:9', '淋巴结清扫区域:颈清直径:0.6-1.2cm'], ['淋巴结清扫区域:III', '淋巴结清扫区域:LN清扫方位:左', '淋巴结清扫区域:LN数量:12'], ['淋巴结清扫区域:III', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:10'], ['淋巴结清扫区域:II', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:12'], ['淋巴结清扫区域:I', '淋巴结清扫区域:LN清扫方位:左', '淋巴结清扫区域:LN数量:10'], ['淋巴结清扫区域:I', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:4', '淋巴结清扫区域:颈清直径:1-1.8cm'], ['淋巴结清扫区域:I', '淋巴结清扫区域:LN清扫方位:右', '淋巴结清扫区域:LN数量:4']]
+2025-04-04 00:50:56,072 - inference - INFO - Processed num 20 prompt
+2025-04-04 00:50:56,073 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:50:56,073 - inference - INFO - Processing complete for input: 20 prompt
+2025-04-04 00:50:56,073 - inference - INFO - data lenth: 20
+2025-04-04 00:51:19,205 - inference - INFO - Processed num 21 prompt
+2025-04-04 00:51:19,205 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息'])
+2025-04-04 00:51:54,683 - inference - INFO - Processed num 21 prompt
+2025-04-04 00:51:54,684 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息'])
+2025-04-04 00:52:40,600 - inference - INFO - Processed num 21 prompt
+2025-04-04 00:52:40,600 - inference - INFO - processed part: dict_keys(['解剖学部位描述信息', '阳性淋巴结描述信息', '分化程度', 'HPV检测', 'P16检测', '切缘检测', '神经侵犯', '脉管侵犯'])
+2025-04-04 00:52:40,601 - inference - INFO - Processing complete for input: 21 prompt
+2025-04-04 00:52:40,601 - inference - INFO - data lenth: 21
