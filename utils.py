@@ -31,7 +31,7 @@ def save_alpaca_data(data:List[Dict[str, Any]], store_dir:str, file_name:str):
 
 
 ## process single request to inference server
-def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, **kwargs) -> List[Dict[str, Any]]:
+def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, **kwargs) -> List[Dict[str, Any]]:
     CRF_alpaca_data = []
 
     for index, item in enumerate(tqdm(all_prompt_list, desc='Processing Prompts', total=len(all_prompt_list), unit='prompts')): 
@@ -80,7 +80,7 @@ def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_cl
 
 
 ## process multi request to inference server ==> max-workers = workers 
-def process_prompt_to_client_multi(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 10, **kwargs) -> List[Dict[str, Any]]:
+def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 5, **kwargs) -> List[Dict[str, Any]]:
     CRF_alpaca_data = []
     
     def process_single_prompt(index, item):
@@ -101,7 +101,8 @@ def process_prompt_to_client_multi(all_prompt_list: List[Dict[str, Any]], infere
                             combine_response_dict[key] = [combine_response_dict[key], value]
                     else:
                         combine_response_dict[key] = value
-
+                # inference_logger.info(f"Processed prompt {prompt}")        
+                inference_logger.info(f"Processed num {index+1} prompt")
                 inference_logger.info(f"processed part: {combine_response_dict.keys()}")
 
             except Exception as e:

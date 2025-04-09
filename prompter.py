@@ -53,6 +53,7 @@ class CRFModel:
 
     def match_grouped_label_data(self, alpaca_data:List[Dict[str, Any]]) -> List[Dict[str, Dict[str, List[str]]]]:
         grouped_label_data = self._group_labels(self.label_list_dict,self.text_type)
+        # print(f"grouped_label_data: {grouped_label_data}")
         all_data_group_result = []
         for item in alpaca_data:
             try:
@@ -85,7 +86,7 @@ class CRFModel:
                     "text": labeled_origin_text,
                     "group_result": group_result
                 }
-                all_data_group_result.append(single_data_ditc)
+                all_data_group_result.append(single_data_ditc)    
             except Exception as e:
                 print(e)
                 return []
@@ -337,7 +338,7 @@ class CRFModel_Xbs_Prompter(CRFModel):
         self.logger = logger
 
     @classmethod
-    def _group_labels(cls,label_list_dict, text_type) -> Dict[str, List[str]]:
+    def _group_labels(cls,label_list_dict:Dict[str,Any], text_type:str) -> Dict[str, List[str]]:
         label_list = label_list_dict[text_type]
         grouped = {}
         attr_groups = {}
@@ -355,19 +356,28 @@ class CRFModel_Xbs_Prompter(CRFModel):
         grouped["non_attr_entities"] = list(non_attr_entities)
         for key, values in attr_groups.items():
             grouped[key] = values
-        return cls._recombine_grouped_label_data(grouped)
+        return grouped
         
     @classmethod
-    def _recombine_grouped_label_data(cls,grouped_label_data:Dict[str, List[str]]) -> Dict[str, List[str]]:
-        recombined_grouped_label_data = {"non_attr_entities":[], "手术史":[], "放化疗史":[]}
-        for key, value in grouped_label_data.items():
-            if key == "non_attr_entities":
-                recombined_grouped_label_data[key] = value
-            elif key == "既往口腔病灶切除史" or key == "既往颈淋巴结清扫史":
-                recombined_grouped_label_data["手术史"].extend(value)
-            elif key == "既往化疗史" or key == "既往放疗史":
-                recombined_grouped_label_data["放化疗史"].extend(value)
-        return recombined_grouped_label_data
+    def _recombine_grouped_label_data(cls,all_grouped_label_data:List[Dict[str, List[str]]]) -> List[Dict[str, Dict[str, List[str]]]]:
+        recombined_all_grouped_label_data = []
+        for item in all_grouped_label_data:
+            text = item["text"]
+            grouped_label_data = item["group_result"]
+            recombined_grouped_label_data_item = {"non_attr_entities":[], "手术史":[], "放化疗史":[]}
+            for key, value in grouped_label_data.items():
+                if key == "non_attr_entities":
+                    recombined_grouped_label_data_item[key] = value
+                elif key == "既往口腔病灶切除史" or key == "既往颈淋巴结清扫史":
+                    recombined_grouped_label_data_item["手术史"].extend(value)
+                elif key == "既往化疗史" or key == "既往放疗史":
+                    recombined_grouped_label_data_item["放化疗史"].extend(value)
+            data_item = {
+                "text": text,
+                "group_result": recombined_grouped_label_data_item
+            }
+            recombined_all_grouped_label_data.append(data_item)
+        return recombined_all_grouped_label_data
         
     @classmethod
     def _json_dumps_schema(cls,json_schema:Dict[str, Any]) -> str:
@@ -391,7 +401,8 @@ class CRFModel_Xbs_Prompter(CRFModel):
         return SurgeryHistory_json, RadiationTherapyHistory_json, OralMucosalHistory_json
     
     def generate_prompt(self,alpaca_data:List[Dict[str, Any]]) -> str:
-        all_data_group_result = self.match_grouped_label_data(alpaca_data)
+        temp_data_group_result = self.match_grouped_label_data(alpaca_data)
+        all_data_group_result = self._recombine_grouped_label_data(temp_data_group_result)
         # self.logger.info(all_data_group_result)
         SurgeryHistory_json,RadiationTherapyHistory_json,OralMucosalHistory_json = self._generate_group_json_schema()
         basic_prompt = """### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：既往口腔病灶切除史,既往口腔病灶切除史:既往口腔病灶切除时间,既往颈淋巴结清扫史,既往颈淋巴结清扫史:既往颈淋巴结清扫时间,既往化疗史,既往化疗史:既往化疗时间,既往化疗史:既往化疗方案,既往化疗史:既往化疗次数,既往放疗史,既往放疗史:既往放疗时间,既往放疗史:既往放疗方式,既往放疗史:既往放疗次数,肿瘤病灶性质,既往黏膜病史\n3.若没有文本输入则全部判断为当前json schema 数据为空\n4.严格按照json shcema进行填写，不得出现填写非json schema的内容\n7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n5.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
@@ -435,8 +446,6 @@ class CRFModel_Xbs_Prompter(CRFModel):
             all_prompt_list.append(single_text_part_prompt_dict)
 
         return all_prompt_list
-
-
 
 class CRFModel_Yxjc_Prompter(CRFModel):
     def __init__(self, label_list_dict:Dict[str,List[str]], text_type:str, logger:CustomLogger):
@@ -554,7 +563,7 @@ class CRFModel_Zkjc_Prompter(CRFModel):
         all_data_group_result = self._recombine_grouped_label_data(all_data_group_result)
         # self.logger.info(all_data_group_result)
         AnatomicalSiteDescription_SE_json,LymphNodeDescription_SE_json = self._generate_group_json_schema()
-        basic_prompt = """### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：阳性淋巴结区域,阳性淋巴结区域:阳性淋巴结大小,阳性淋巴结区域:阳性淋巴结个数,阳性淋巴结区域:阳性淋巴结方位,阳性淋巴结区域:阳性淋巴结描述,病灶部位,病灶部位:病灶大小,病灶部位:病灶方位,病灶部位:累及部位\n3.若没有提及"阳性LN数量"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"数组为空\n4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米\n5.注意:病灶部位:病灶大小，通常以厘米为单位作为判断，取其最大值作为判断来填写json schema\n6.若没有文本输入则全部判断为当前json schema 数据为空\n7.严格按照json shcema进行填写，不得出现填写非json schema的内容\n8.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n9.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
+        basic_prompt = """### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：阳性淋巴结区域,阳性淋巴结区域:阳性淋巴结大小,阳性淋巴结区域:阳性淋巴结个数,阳性淋巴结区域:阳性淋巴结方位,阳性淋巴结区域:阳性淋巴结描述,病灶部位,病灶部位:病灶大小,病灶部位:病灶方位,病灶部位:累及部位\n3.若没有提及"阳性淋巴结个数"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"数组为空\n4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米\n5.注意:病灶部位:病灶大小，通常以厘米为单位作为判断，取其最大值作为判断来填写json schema\n6.若没有文本输入则全部判断为当前json schema 数据为空\n7.严格按照json shcema进行填写，不得出现填写非json schema的内容\n8.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n9.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
         all_prompt_list = []
         for item in all_data_group_result:
             group_text = item["text"]
