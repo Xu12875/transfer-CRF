@@ -42,14 +42,20 @@
             "seed": 42
         },
         "data": {
-            "transfer_data_path": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_BLZD_444/BLZD_464.json"
-        },
-        "prompt": {
-            "prompt_file_dir": "",
-            "prompt_file_name": ""
+            "transfer_data_path": {
+                "blzd": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_BLZD_444/BLZD_464.json",
+                "grs": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_GRS_464/GRS_464.json",
+                "hys": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_HYS_464/HYS_464.json",
+                "jws": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_JWS_464/JWS_464.json",
+                "ssjl": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_SSJL_464/SSJL_464.json",
+                "xbs": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_XBS_444/XBS_464.json",
+                "yxjc": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_YXJC_464/YXJC_464.json",
+                "zkjc": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/jy_ZKJC_464/ZKJC_464.json"
+            }
         },
         "store_transfer_data": {
-            "store_transfer_data_path_dir": "/home/xuhaitong/projects/crm-llm/transfer_CRF/transfer_data/CRF_BLZD_Alpaca_online_test"
+            "store_transfer_data_path_dir": "/home/xuhaitong/projects/crm-llm/transfer_CRF/transfer_data/CRF_localtest",
+            "store_transfer_data_file_name": "blzd_CRF_alpaca.json"
         }
     },
     "log": {
