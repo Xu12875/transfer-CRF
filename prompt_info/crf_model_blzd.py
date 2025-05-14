@@ -2,156 +2,84 @@ from typing import List, Literal, Optional
 from pydantic import BaseModel, Field, field_validator, model_validator
 import json
 from enum import Enum
+from typing import Optional, Dict, Union, Literal
+from pydantic import BaseModel
 
-
-class DifferentiationLevel(str, Enum): # 分化程度
+class 分化信息(str, Enum): # 分化程度
     高分化 = "高分化"
     高中分化 = "高-中分化"
     中分化 = "中分化"
     中低分化 = "中-低分化"
     低分化 = "低分化"
-    无 = "无"
+    无 = None
 
-class HPVStatus(str, Enum): # HPV检测
+class HPV(str, Enum): # HPV检测
     阴性 = "阴性"
     阳性 = "阳性"
-    无 = "无"
+    无 = None
 
-class P16Status(str, Enum): # P16检测
+class P16(str, Enum): # P16检测
     阴性 = "阴性"
     阳性 = "阳性"
-    无 = "无"
+    无 = None
 
-class MarginStatus(str, Enum): # 切缘检测
+class 切缘(str, Enum): # 切缘检测
     阴性 = "阴性"
     阳性 = "阳性"
-    无 = "无"
+    无 = None
 
-# ---------------------------
-# 基础校验模型
-# ---------------------------
-class OtherOption(BaseModel):
-    是否选择: bool = False
-    说明: Optional[str] = Field(
-        None,
-        max_length=100,
-        description="其他部位需填写文字说明"
-    )
+class 属性信息(BaseModel):
+    解剖学方位: Literal["左侧", "右侧", "双侧", "不详"] = None
+    DOI值: Literal["≤5", "≤10（＞5）", "＞10", "不详"] = None
+    原发灶大小: Literal["≤2", "≤4（＞2）", "＞4", "不详"] = None
 
-# ---------------------------
-# 解剖学部位描述信息模型
-# ---------------------------
-class AnatomicalSiteRegion(BaseModel):
-    # 固定部位使用纯布尔值
-    不详: bool = False
-    唇: bool = False
-    颊: bool = False
-    舌: bool = False
-    腭: bool = False
-    口咽: bool = False
-    口底: bool = False
-    颌骨: bool = False
-    牙龈: bool = False
-    # 其他部位使用复合结构
-    其他: OtherOption = Field(default_factory=OtherOption)
+class 解剖学部位信息(BaseModel):
+    解剖学部位: str
+    属性信息: 属性信息
 
-    @model_validator(mode='after')
-    def validate_other_field(self):
-        other = self.其他
-        # 验证其他部位逻辑
-        if other.是否选择 and not other.说明:
-            raise ValueError("选择其他部位时必须填写说明")
-        if not other.是否选择 and other.说明:
-            raise ValueError("未选择其他部位时不能填写说明")
-        return self
-
-class InvolvedSite(BaseModel):
-    # 固定部位使用纯布尔值（保留别名）
-    不详: bool = False
-    皮质骨: bool = False
-    下牙槽神经管: bool = False
-    口底部: bool = False
-    面部皮肤: bool = False
-    舌外肌: bool = False
-    上颌窦: bool = False
-    咀嚼肌间隙:bool = False
-    翼状板: bool = False
-    颅底: bool = False
-    # 其他使用专用结构
-    其他: OtherOption = Field(default_factory=OtherOption)
-
-    @model_validator(mode='after')
-    def validate_selections(self):
-        # 验证其他部位逻辑
-        if self.其他.是否选择 and not self.其他.说明:
-            raise ValueError("选择其他累及部位时必须填写说明")
-        if not self.其他.是否选择 and self.其他.说明:
-            raise ValueError("未选择其他累及部位时不能填写说明")
-        return self
-
-class AnatomicalSiteAttributes(BaseModel):
-    肿瘤位置: Literal["左侧", "右侧", "双侧", "不详"]
-    肿瘤大小: Literal["≤2", "≤4（＞2）", "＞4", "不详"]
-    浸润深度: Literal["≤5", "≤10（＞5）", "＞10", "不详"]
-    累及部位: InvolvedSite
-
-class AnatomicalSiteDescription(BaseModel):
-    原发部位: AnatomicalSiteRegion
-    属性信息: AnatomicalSiteAttributes
-
-# 阳性淋巴结描述信息模型
-class LymphNodeAttributes(BaseModel):
-    阳性淋巴结位置: Literal["左侧", "右侧", "双侧", "不详"]
+class 阳性淋巴结描述(BaseModel):
+    阳性淋巴结清扫区域: str
+    阳性颈清部位: Literal["左侧", "右侧", "双侧", "不详"] = None
+    阳性颈清侧位: Literal["对侧", "同侧", "双侧"] = None
+    阳性颈清直径: Literal["≤3", "≤6（＞3）", "＞6", "不详"] = None
     阳性淋巴结数量: int = Field(..., ge=0, le=999)
-    淋巴结总数量: int = Field(..., ge=0, le=999)
-    阳性淋巴结直径: Literal["≤3", "≤6（＞3）", "＞6", "不详"]
-    包膜外侵犯: bool
+    淋巴结数量: int = Field(..., ge=0, le=999)
+    包膜外侵犯: bool = False
 
-class LymphNodeRegion(BaseModel):
-    不详: bool = False
-    I区: bool = False
-    II区: bool = False
-    III区: bool = False
-    IV区: bool = False
-    V区: bool = False
-    # 其他区域使用专用结构
-    其他: OtherOption = Field(default_factory=OtherOption)
+class 区域描述(BaseModel):
+    阳性颈清直径: Literal["≤3", "≤6（＞3）", "＞6", "不详"] = None
+    阳性淋巴结: int = Field(..., ge=0, le=999)
+    淋巴结: int = Field(..., ge=0, le=999)
 
-    @model_validator(mode='after')
-    def validate_selections(self):
-        # 验证其他部位逻辑
-        if self.其他.是否选择 and not self.其他.说明:
-            raise ValueError("选择其他区域时必须填写说明")
-        if not self.其他.是否选择 and self.其他.说明:
-            raise ValueError("未选择其他区域时不能填写说明")
-        return self
+class 阳性淋巴结分区(BaseModel):
+    左: Optional[区域描述] = Field(default=None, exclude=True)
+    右: Optional[区域描述] = Field(default=None, exclude=True)
+    不详: Optional[区域描述] = Field(default=None, exclude=True)
 
+class 阳性淋巴结分区描述(BaseModel):
+    I: Optional[阳性淋巴结分区] = Field(default=None, exclude=True)
+    II: Optional[阳性淋巴结分区] = Field(default=None, exclude=True)
+    III: Optional[阳性淋巴结分区] = Field(default=None, exclude=True)
+    IV: Optional[阳性淋巴结分区] = Field(default=None, exclude=True)
+    V: Optional[阳性淋巴结分区] = Field(default=None, exclude=True)
 
-class LymphNodeDescription(BaseModel):
-    阳性淋巴结区域: LymphNodeRegion
-    属性信息: LymphNodeAttributes
+class 阳性淋巴结信息(BaseModel):
+    阳性淋巴结描述: Optional[阳性淋巴结描述]
+    阳性淋巴结分区描述: Optional[阳性淋巴结分区描述]
 
-class MedicalReport(BaseModel):
-    分化程度: DifferentiationLevel
-    HPV检测: HPVStatus
-    P16检测: P16Status
-    切缘检测: MarginStatus
+class 基本信息描述(BaseModel):
+    分化信息: 分化信息 
+    HPV: HPV
+    P16: P16
+    切缘: 切缘
     神经侵犯: bool
     脉管侵犯: bool
-    解剖学部位描述信息: List[AnatomicalSiteDescription]
-    阳性淋巴结描述信息: List[LymphNodeDescription]
-
 
 class Part_AnatomicalSiteDescription(BaseModel):
-    解剖学部位描述信息: List[AnatomicalSiteDescription]
+    解剖学部位信息: 解剖学部位信息 
 
 class Part_LymphNodeDescription(BaseModel):
-    阳性淋巴结描述信息: List[LymphNodeDescription]
+    阳性淋巴结信息: Optional[阳性淋巴结信息]
 
 class Part_OtherDescription(BaseModel):
-    分化程度: DifferentiationLevel
-    HPV检测: HPVStatus
-    P16检测: P16Status
-    切缘检测: MarginStatus
-    神经侵犯: bool
-    脉管侵犯: bool
+    基本信息描述: 基本信息描述

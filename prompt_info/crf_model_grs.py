@@ -4,9 +4,9 @@ import json
 from enum import Enum
 
 # 枚举类型 
-class YesNoEnum(str, Enum):
-    NO = "无"
-    YES = "有"
+class YesNoEnum(bool, Enum):
+    NO = False
+    YES = True
 
 class HealthHistory(BaseModel):
     smoking: YesNoEnum = Field(..., alias="吸烟史")

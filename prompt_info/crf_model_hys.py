@@ -13,6 +13,7 @@ class MaritalStatusEnum(str, Enum):
 class FertilityStatusEnum(str, Enum):
     NO_CHILDREN = "未育"
     HAS_CHILDREN = "已育"
+    OTHER_option = "不合适"
 
 class MarriageFertilityHistory(BaseModel):
     marital_status: MaritalStatusEnum = Field(..., alias="婚姻情况")
