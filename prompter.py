@@ -5,7 +5,7 @@ from prompt_info.crf_model_blzd import Part_AnatomicalSiteDescription,Part_Lymph
 from prompt_info.crf_model_grs import HealthHistory
 from prompt_info.crf_model_hys import MarriageFertilityHistory
 from prompt_info.crf_model_jws import MedicalHistory
-from prompt_info.crf_model_xbs import Part_SurgeryHistory,Part_RadiationTherapyHistory,Part_OralMucosalHistory
+from prompt_info.crf_model_xbs import Part_OralMucosalHistory,Part_PastMedicalHistory
 from prompt_info.crf_model_yxjc import Part_AnatomicalSiteDescription_image,Part_LymphNodeDescription_image
 from prompt_info.crf_model_zkjc import Part_AnatomicalSiteDescription_SE,Part_LymphNodeDescription_SE
 from prompt_info.crf_model_ssjl import SurgeryRecord
@@ -124,7 +124,48 @@ class CRFModel_Blzd_Prompter(CRFModel):
         all_data_group_result = self.match_grouped_label_data(alpaca_data)
         # self.logger.info(all_data_group_result)
         AnatomicalSiteDescription_json,LymphNodeDescription_json,OtherDescription_json = self._generate_group_json_schema()
-        basic_prompt = """### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：分化信息，HPV，P16，切缘，神经侵犯，脉管侵犯，解剖学部位，解剖学部位:解剖学方位，解剖学部位:原发灶大小，解剖学部位:DOI，淋巴结清扫区域，淋巴结清扫区域:LN清扫方位，淋巴结清扫区域:LN数量，淋巴结清扫区域:颈清直径，淋巴结清扫区域:阳性LN数量，淋巴结清扫区域:胞膜外侵犯\n3.若没有提及"阳性LN数量"其个数就是为0，由于阳性淋巴结数量为0，因此所有区域均不符合记录条件，最终"阳性淋巴结描述信息"的为空\n4.注意：淋巴结清扫区域:颈清直径中给的是一组范围的数据，通常以厘米为单位作为判断，例如"0.3-1.3cm",取其最大值"1.3cm"作为判断来填写json schema，注意在填写这一项时："≤3"是指颈清直径小于等于厘米，"≤6（＞3）"是指颈清直径大于3厘米小于等于6厘米，"＞6"是指颈清直径大于6厘米\n5.若没有文本输入则全部判断为当前json schema 数据为空\n6.严格按照json shcema进行填写，不得出现填写非json schema的内容\n7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n8.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
+        basic_prompt = """# 任务  
+        请你使用中文回答，你是一位专业的信息抽取专家。当前任务是针对口腔鳞状细胞癌的中文电子病历文本进行信息抽取，请按照 **[要求]** 的内容进行抽取，并以指定的 **JSON Schema** 格式进行输出。  
+
+        ## 要求  
+        1. **输入数据格式：**  
+        - 给出的文本是经过标注后的数据，其中每个数据项由 **实体** 和 **属性** 组成，格式如下：  
+            - `"实体:属性"` 或 `"实体"`。  
+            - 如果无属性，则仅有实体。  
+
+        2. **需要抽取的信息字段：**  
+        - **分化信息、HPV、P16、切缘：** 从以下选项中选择一个值：`"阴性"`、`"阳性"`、`"无"`。  
+        - **神经侵犯、脉管侵犯：** 布尔值（`true` / `false`）。  
+        - **解剖学部位信息：**  
+            - **解剖学部位：** 字符串。  
+            - **属性信息：**  
+            - **解剖学方位：** `"左侧"`、`"右侧"`、`"双侧"`、`"不详"`。  
+            - **DOI值：** `"≤5"`、`"≤10（＞5）"`、`"＞10"`、`"不详"`。  
+            - **原发灶大小：** `"≤2"`、`"≤4（＞2）"`、`"＞4"`、`"不详"`。  
+
+        - **阳性淋巴结信息：** 包含两部分：  
+            - **阳性淋巴结描述：**  
+            - **阳性淋巴结清扫区域：** 格式为 `"左1"`、`"右2"` 等。  
+            - **阳性颈清部位：** `"左侧"`、`"右侧"`、`"双侧"`、`"不详"`。  
+            - **阳性颈清侧位：** `"对侧"`、`"同侧"`、`"双侧"`。  
+            - **阳性颈清直径：** `"≤3"`、`"≤6（＞3）"`、`"＞6"`、`"不详"`。  
+            - **阳性淋巴结数量：** 整数（0-999）。  
+            - **淋巴结数量：** 整数（0-999）。  
+            - **包膜外侵犯：** 布尔值（`true` / `false`）。  
+
+            - **阳性淋巴结分区描述：**  
+            - 各分区（`I`、`II`、`III`、`IV`、`V`）下设 `"左"`、`"右"`、`"不详"` 三个子字段，每个子字段包含：  
+                - **阳性颈清直径：** `"≤3"`、`"≤6（＞3）"`、`"＞6"`、`"不详"`。  
+                - **阳性淋巴结：** 整数（0-999）。  
+                - **淋巴结：** 整数（0-999）。  
+
+        3. **填写要求：**  
+        - 每个字段必须按照上述要求填写，不得遗漏。  
+        - 严格遵循 **JSON Schema** 的数据格式和字段要求。  
+        [json schema]\n
+        {json_schema}\n
+        [标注数据]\n
+        {input_text} """
         all_prompt_list = []
         for item in all_data_group_result:
             group_text = item["text"]
@@ -247,7 +288,7 @@ class CRFModel_Hys_Prompter(CRFModel):
     def generate_prompt(self,alpaca_data:List[Dict[str, Any]]) -> str:
         all_data_group_result = self.match_grouped_label_data(alpaca_data)
         MarriageFertilityHistory_json = self._generate_group_json_schema()
-        basic_prompt = """"### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的文本数据，你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体标签如下：婚姻状况,生育状况\n3\n3.若没有文本输入则全部判断为当前json schema 数据为空\n4.严格按照json shcema进行填写，不得出现填写非json schema的内容\n5.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n6.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
+        basic_prompt = """"### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的文本数据，你需要从这些数据中抽取关键信息填写json schema\n2.给你的实体标签如下：婚姻状况,生育状况\n3.若没有文本输入则全部判断为当前json schema 数据为空\n4.严格按照json shcema进行填写，不得出现填写非json schema的内容\n5.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n6.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
         all_prompt_list = []
         for item in all_data_group_result:
             group_text = item["text"]
@@ -301,7 +342,7 @@ class CRFModel_Jws_Prompter(CRFModel):
     def generate_prompt(self,alpaca_data:List[Dict[str, Any]]) -> str:
         all_data_group_result = self.match_grouped_label_data(alpaca_data)
         MedicalHistory_json = self._generate_group_json_schema()
-        basic_prompt = """"### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的文本数据，你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体标签如下：高血压,糖尿病,冠心病,血液系统疾病,其他肿瘤疾病,抗凝药物治疗\n3.若没有文本输入则全部判断为当前json schema 数据为空\n4.严格按照json shcema进行填写，不得出现填写非json schema的内容\n5.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n6.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
+        basic_prompt = """[任务]\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的中文电子病历文本进行信息抽取，需要抽取信息的文本在最后，请按照[要求]的内容进行信息抽取：\n[要求]\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"，其中如果没有":"连接就是只有实体没有属性，反之则既有实体又有属性，你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：高血压,糖尿病,冠心病,血液系统疾病,其他肿瘤史,抗凝药物史\n3.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n4.严格按照json shcema每个条目的要求进行填写，不得出现填写非json schema的内容,json shcema的每个字段都需出现，请按照[填写要求]完成json schema的填写\n[填写要求]\n1."高血压"字段，若文中出现高血压的相关内容，则利用bool数据类型进行判断并填写\n2."糖尿病"字段，若文中出现糖尿病的相关内容，则利用bool数据类型进行判断并填写\n3."冠心病"字段，若文中出现冠心病的相关内容，则利用bool数据类型进行判断并填写\n4."血液系统疾病"字段，若文中出现血液系统疾病的记录或者病史的相关内容，则利用str数据类型进行判断并填写，若没有出现相关内容则用bool数据类型进行判断并填写\n5."抗凝药物史"字段，若文中出现抗凝药物史的记录或者病史的相关内容，则利用str数据类型进行判断并填写，若没有出现相关内容则用bool数据类型进行判断并填写\n6."其他肿瘤史"字段，若文中出现其他肿瘤史的记录或者病史的相关信息，则利用str数据类型进行判断并填写，若没有出现相关内容则用bool数据类型进行判断并填写\n[json schema]\n{json_schema}\n[标注数据]\n{input_text}"""
         all_prompt_list = []
         for item in all_data_group_result:
             group_text = item["text"]
@@ -385,27 +426,23 @@ class CRFModel_Xbs_Prompter(CRFModel):
     
     @classmethod
     def _generate_group_json_schema(cls) -> Tuple[str, str, str]:
-        class SurgeryHistory(Part_SurgeryHistory):
-            def __init__(self,**data):
-                super().__init__(**data)
-        class RadiationTherapyHistory(Part_RadiationTherapyHistory):
+        class PastMedicalHistory(Part_PastMedicalHistory):
             def __init__(self,**data):
                 super().__init__(**data)
   
         class OralMucosalHistory(Part_OralMucosalHistory):
             def __init__(self,**data):
                 super().__init__(**data)
-        SurgeryHistory_json = cls._json_dumps_schema(SurgeryHistory.model_json_schema())
-        RadiationTherapyHistory_json = cls._json_dumps_schema(RadiationTherapyHistory.model_json_schema())
+        PastMedicalHistory_json = cls._json_dumps_schema(PastMedicalHistory.model_json_schema())
         OralMucosalHistory_json = cls._json_dumps_schema(OralMucosalHistory.model_json_schema())
-        return SurgeryHistory_json, RadiationTherapyHistory_json, OralMucosalHistory_json
+        return PastMedicalHistory_json, OralMucosalHistory_json
     
     def generate_prompt(self,alpaca_data:List[Dict[str, Any]]) -> str:
         temp_data_group_result = self.match_grouped_label_data(alpaca_data)
         all_data_group_result = self._recombine_grouped_label_data(temp_data_group_result)
         # self.logger.info(all_data_group_result)
-        SurgeryHistory_json,RadiationTherapyHistory_json,OralMucosalHistory_json = self._generate_group_json_schema()
-        basic_prompt = """### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：既往口腔病灶切除史,既往口腔病灶切除史:既往口腔病灶切除时间,既往颈淋巴结清扫史,既往颈淋巴结清扫史:既往颈淋巴结清扫时间,既往化疗史,既往化疗史:既往化疗时间,既往化疗史:既往化疗方案,既往化疗史:既往化疗次数,既往放疗史,既往放疗史:既往放疗时间,既往放疗史:既往放疗方式,既往放疗史:既往放疗次数,肿瘤病灶性质,既往黏膜病史\n3.若没有文本输入则全部判断为当前json schema 数据为空\n4.严格按照json shcema进行填写，不得出现填写非json schema的内容\n7.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n5.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
+        PastMedicalHistory_json,OralMucosalHistory_json = self._generate_group_json_schema()
+        basic_prompt = """[任务]\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的中文电子病历文本进行信息抽取，需要抽取信息的文本在最后，请按照[要求]的内容进行信息抽取：\n[要求]\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"，其中如果没有":"连接就是只有实体没有属性，反之则既有实体又有属性，你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：既往口腔病灶切除史,既往口腔病灶切除史:既往口腔病灶切除时间,既往颈淋巴结清扫史,既往颈淋巴结清扫史:既往颈淋巴结清扫时间,既往化疗史,既往化疗史:既往化疗时间,既往化疗史:既往化疗方案,既往化疗史:既往化疗次数,既往放疗史,既往放疗史:既往放疗时间,既往放疗史:既往放疗方式,既往放疗史:既往放疗次数,肿瘤病灶性质,既往黏膜病史\n3.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n4.严格按照json shcema每个条目的要求进行填写，不得出现填写非json schema的内容,json shcema的每个字段都需出现，请按照[填写要求]完成json schema的填写\n[填写要求]1."既往手术史"字段，若文中出现既往的手术记录的相关内容，则利用bool数据类型进行判断并填写\n2."既往化疗史"字段，若文中出现有关以往的化疗治疗的记录或者方案的内容，则利用bool数据类型进行判断并填写\n3."既往化疗史"字段，若文中出现有关以往的放疗治疗的记录或者方案的内容，则利用bool数据类型进行判断并填写\n4."既往口腔黏膜病史"字段，若文中出现以往的口腔黏膜病的记录或者病史的相关内容，则利用bool数据类型进行判断并填写\n5."既往颈清史"字段，若文中出现以往的颈部淋巴清扫的记录或者病史的相关内容，则利用bool数据类型进行判断并填写\n6."原发复发"字段，若文中出现该疾病的原发还是复发的相关信息，则利用str数据类型进行判断并填写\n7."复发时间"字段，若文中出现该疾病的复发时间的相关内容，则利用str数据类型进行判断并填写，若"原发复发"字段的描述信息是原发,则该字段可以判断为空\n[json schema]\n{json_schema}\n[标注数据]\n{input_text}"""
         all_prompt_list = []
         for item in all_data_group_result:
             group_text = item["text"]
@@ -415,19 +452,12 @@ class CRFModel_Xbs_Prompter(CRFModel):
             OralMucosalHistory_prompt = ""
             try:
                 for group_name, group_data in group_data.items():
-                    if group_name == "手术史":
+                    if group_name == "手术史" or group_name == "放化疗史":
                         if not group_data:
-                            SurgeryHistory_prompt = basic_prompt.format(json_schema=SurgeryHistory_json,input_text="\" \"")
+                            SurgeryHistory_prompt = basic_prompt.format(json_schema=PastMedicalHistory_json,input_text="\" \"")
                         else:
                             input_text = group_data
-                            SurgeryHistory_prompt = basic_prompt.format(json_schema=SurgeryHistory_json,input_text=input_text)
-                        
-                    elif group_name == "放化疗史":
-                        if not group_data:
-                            RadiationTherapyHistory_prompt = basic_prompt.format(json_schema=RadiationTherapyHistory_json,input_text="\" \"")
-                        else:
-                            input_text = group_data
-                            RadiationTherapyHistory_prompt = basic_prompt.format(json_schema=RadiationTherapyHistory_json,input_text=input_text)
+                            SurgeryHistory_prompt = basic_prompt.format(json_schema=PastMedicalHistory_json,input_text=input_text)
                     else:
                         if not group_data:
                             OralMucosalHistory_prompt = basic_prompt.format(json_schema=OralMucosalHistory_json,input_text="\" \"")
@@ -636,7 +666,7 @@ class CRFModel_Ssjl_Prompter(CRFModel):
         # self.logger.info(all_data_group_result)
         SurgeryRecord_json = self._generate_group_json_schema()
 
-        basic_prompt = """### 任务\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的病理诊断的中文医疗文本进行信息抽取，需要标注的文本在最后，下面是标注的要求：\n### 要求\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：手术名称,术后患者去向,修复重建技术,修复重建技术：材料大小,修复重建技术：材料来源,修复重建技术：修复重建部位,出血标志,出血标志：出血量\n3.若没有文本输入则全部判断为当前json schema 数据为空\n4.严格按照json shcema进行填写，不得出现填写非json schema的内容\n5.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n6.请你根据以上要求以及JSON schema对输入的文本进行信息抽取\nJSON schema 如下：\n{json_schema}\n### 输入文本\n{input_text}"""
+        basic_prompt = """[任务]\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对关于口腔鳞状细胞癌的中文电子病历文本进行信息抽取，需要抽取信息的文本在最后，请按照[要求]的内容进行信息抽取：\n[要求]\n1. 我将会给你一段标注后的数据文本，是由实体和属性组成的一段数据，组成的格式为"实体:属性"，其中如果没有":"连接就是只有实体没有属性，反之则既有实体又有属性，你需要从这些数据中抽取关键信息填写json schema\n2. 给你的实体与属性如下：手术名称,术后患者去向,修复重建技术,修复重建技术：材料大小,修复重建技术：材料来源,修复重建技术：修复重建部位,出血标志,出血标志：出血量\n3.给你的文本是一组python 的list[list[str]],每一组list[str]都是这个组的内容，请综合填写\n4.严格按照json shcema每个条目的要求进行填写，不得出现填写非json schema的内容,json shcema的每个字段都需出现，请按照[填写要求]完成json schema的填写\n[填写要求]\n1."颈部淋巴清扫"字段，若文中没有出现颈部淋巴清扫的相关内容，则利用bool数据类型进行判断并填写，若文中出现颈部淋巴清扫的相关内容，则利用str数据类型填写相关的内容\n2."皮瓣修复"字段，若文中出现有关皮瓣修复的内容，则利用bool数据类型进行判断并填写\n3."气切"字段，若文中出现气管切开的相关信息，则利用bool数据类型进行判断并填写\n4."输血"字段，若文中出现与输血相关的信息，则利用bool数据类型进行判断并填写\n5."ICU"字段，若文中出现病患的最终去处有ICU的相关内容，则利用bool数据类型进行判断并填写\n[json schema]\n{json_schema}\n[标注数据]\n{input_text}"""
         all_prompt_list = []
         for item in all_data_group_result:
             group_text = item["text"]
