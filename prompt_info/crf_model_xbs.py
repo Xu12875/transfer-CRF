@@ -31,9 +31,10 @@ class TumorRecurrenceTime(str, Enum):
 class Part_OralMucosalHistory(BaseModel):
     原发复发: TumorRecurrenceType = Field(..., title="肿瘤原复发类型")
     复发时间: TumorRecurrenceTime = Field(..., title="肿瘤复发时间")
-
+    既往口腔黏膜病史: Union[str,bool] = Field(..., title="既往口腔黏膜病史")
+    
 class Part_PastMedicalHistory(BaseModel):
     既往手术史: bool = Field(False, title="既往手术史")
     既往化疗史: bool = Field(False, title="既往化疗史")
     既往放疗史: bool = Field(False, title="既往放疗史")
-    既往口腔黏膜病史: Union[str,bool] = Field(..., title="既往口腔黏膜病史")
+    既往颈清史: bool = Field(False, title="既往颈清史")

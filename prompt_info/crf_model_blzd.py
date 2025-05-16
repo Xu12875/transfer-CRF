@@ -64,7 +64,7 @@ class 阳性淋巴结分区描述(BaseModel):
     V: Optional[阳性淋巴结分区] = Field(default=None, exclude=True)
 
 class 阳性淋巴结信息(BaseModel):
-    阳性淋巴结描述: Optional[阳性淋巴结描述]
+    阳性淋巴结描述: 阳性淋巴结描述
     阳性淋巴结分区描述: Optional[阳性淋巴结分区描述]
 
 class 基本信息描述(BaseModel):
@@ -79,7 +79,7 @@ class Part_AnatomicalSiteDescription(BaseModel):
     解剖学部位信息: 解剖学部位信息 
 
 class Part_LymphNodeDescription(BaseModel):
-    阳性淋巴结信息: Optional[阳性淋巴结信息]
+    阳性淋巴结信息: 阳性淋巴结信息
 
 class Part_OtherDescription(BaseModel):
     基本信息描述: 基本信息描述
