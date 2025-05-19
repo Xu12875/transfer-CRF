@@ -80,7 +80,7 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
 
 
 ## process multi request to inference server ==> max-workers = workers 
-def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 5, **kwargs) -> List[Dict[str, Any]]:
+def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 50, **kwargs) -> List[Dict[str, Any]]:
     CRF_alpaca_data = []
     
     def process_single_prompt(index, item):

@@ -46,9 +46,9 @@ def transfer_inference(inference_client_cls: Union[Type[local_inference_client],
         prompter_logger = prompter_logger
         prompter_setup = prompter_cls(label_list_dict=label_list_dicts,text_type = text_type,logger=prompter_logger)
 
-        all_blzd_prompt_list = prompter_setup.generate_prompt(alpaca_data[:30])
+        all_prompt_list = prompter_setup.generate_prompt(alpaca_data)
         
-        inference_alpaca_data = process_prompt_to_client(all_blzd_prompt_list,local_inference_client_setup,inference_logger,temperature=temperature)
+        inference_alpaca_data = process_prompt_to_client(all_prompt_list,local_inference_client_setup,inference_logger,temperature=temperature)
         inference_logger.info(f"local inference client get {len(inference_alpaca_data)} data")
 
         return inference_alpaca_data
@@ -68,7 +68,8 @@ def transfer_inference(inference_client_cls: Union[Type[local_inference_client],
         
         ## setup prompter
         data_config =online_inference_config['data']
-        alpaca_data = load_alpaca_data(data_config['transfer_data_path'])
+        alpaca_data = load_alpaca_data(data_config['transfer_data_path'][text_type])
+        print(f"load {len(alpaca_data)} data from {data_config['transfer_data_path'][text_type]}")
 
         ## sent prompt to client 
         if not issubclass(prompter_cls, (CRFModel_Blzd_Prompter, CRFModel_Grs_Prompter,CRFModel_Hys_Prompter,CRFModel_Jws_Prompter,CRFModel_Ssjl_Prompter,CRFModel_Xbs_Prompter,CRFModel_Yxjc_Prompter,CRFModel_Zkjc_Prompter)):
@@ -76,7 +77,7 @@ def transfer_inference(inference_client_cls: Union[Type[local_inference_client],
         
         prompter_logger = prompter_logger
         prompter_setup = prompter_cls(label_list_dict= label_list_dicts,text_type = text_type,logger=prompter_logger)
-        all_blzd_prompt_list = prompter_setup.generate_prompt(alpaca_data[:2])
+        all_blzd_prompt_list = prompter_setup.generate_prompt(alpaca_data[:30])
         
         inference_alpaca_data = process_prompt_to_client(all_blzd_prompt_list,online_inference_client_setup,inference_logger,temperature=temperature)
         inference_logger.info(f"online inference client get {len(inference_alpaca_data)} data")
@@ -86,7 +87,7 @@ def transfer_inference(inference_client_cls: Union[Type[local_inference_client],
 
 def online_inference(text_class:str,log_dir_name:str,store_dir_name:str,store_file_name:str):
     ## define config file path
-    config_file_path = "/home/xuhaitong/projects/crm-llm/transfer_CRF/config.json"
+    config_file_path = "/home/xuhaitong/projects/temp/transfer_CRF/config.json"
 
     ## load log config
     log_config = load_config(config_file_path)['log']
@@ -133,7 +134,7 @@ def online_inference(text_class:str,log_dir_name:str,store_dir_name:str,store_fi
 def local_inference(text_class:str,log_dir_name:str,store_dir_name:str,store_file_name:str):
     # local inference 
     ## define config file path
-    config_file_path = "/home/xuhaitong/projects/crm-llm/transfer_CRF/config.json"
+    config_file_path = "/home/xuhaitong/projects/temp/transfer_CRF/config.json"
 
     ## load log config
     log_config = load_config(config_file_path)['log']
@@ -143,7 +144,7 @@ def local_inference(text_class:str,log_dir_name:str,store_dir_name:str,store_fil
     # Initialize logger    
     prompter_logger = CustomLogger(log_dir=log_dir,log_file="prompter.log", log_name="prompter")
     client_logger = CustomLogger(log_dir=log_dir,log_file="client.log", log_name="client")
-    inference_logger = CustomLogger(log_dir=log_dir,log_file="inference_test.log", log_name="inference")
+    inference_logger = CustomLogger(log_dir=log_dir,log_file="inference.log", log_name="inference")
     
     # switch CRF_model
     CRFPrompter = {
@@ -181,12 +182,14 @@ def local_inference(text_class:str,log_dir_name:str,store_dir_name:str,store_fil
 
 def main():
     ### local inference 
-    local_inference(text_class="blzd",log_dir_name="blzd_single",store_dir_name="blzd_single",store_file_name="blzd_30_single.json")
-    # local_inference(text_class="grs",log_dir_name="grs",store_dir_name="grs",store_file_name="grs_30.json")
-    # local_inference(text_class="hys",log_dir_name="hys",store_dir_name="hys",store_file_name="hys_30.json")
-    # local_inference(text_class="jws",log_dir_name="jws",store_dir_name="jws",store_file_name="jws_30.json")
-    # local_inference(text_class="ssjl",log_dir_name="ssjl",store_dir_name="ssjl",store_file_name="ssjl_30.json")
-    # local_inference(text_class="xbs",log_dir_name="xbs",store_dir_name="xbs",store_file_name="xbs_30.json")
+    local_inference(text_class="blzd",log_dir_name="blzd",store_dir_name="blzd",store_file_name="blzd.json")
+    # local_inference(text_class="grs",log_dir_name="grs",store_dir_name="grs",store_file_name="grs.json")
+    # local_inference(text_class="hys",log_dir_name="hys",store_dir_name="hys",store_file_name="hys.json")
+    # local_inference(text_class="jws",log_dir_name="jws",store_dir_name="jws",store_file_name="jws.json")
+    # local_inference(text_class="ssjl",log_dir_name="ssjl",store_dir_name="ssjl",store_file_name="ssjl.json")
+    # local_inference(text_class="xbs",log_dir_name="xbs",store_dir_name="xbs",store_file_name="xbs.json")
     # local_inference(text_class="yxjc",log_dir_name="yxjc",store_dir_name="yxjc",store_file_name="yxjc_30.json")
     # local_inference(text_class="zkjc",log_dir_name="zkjc",store_dir_name="zkjc",store_file_name="zkjc_30.json")   
     
+    ### online inference 
+    # online_inference(text_class="blzd",log_dir_name="blzd",store_dir_name="blzd",store_file_name="blzd_30.json")

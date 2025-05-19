@@ -60,12 +60,14 @@ class local_inference_client(InferenceClient):
                 **kwargs
             )
             response = completion.choices[0].message.content
-            # self.clogger.info(f"Response: {response}")
+            self.clogger.info(f"Response: {response}")
             answer_content = self._get_answer(response)
             reasoning_content = self._get_reasoning_content(response)
+            # self.clogger.info(f"answer_content: {answer_content}, reasoning_content: {reasoning_content}")
             return reasoning_content, answer_content
         except Exception as e:
             self.clogger.error(f"Error occurred: {e}")
+            self.clogger.error(f"answer_content: {answer_content}, reasoning_content: {reasoning_content}")
             return None, None
   
 
