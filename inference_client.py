@@ -96,13 +96,17 @@ class online_inference_client(InferenceClient):
     @classmethod
     def _process_answer_content(self, response:str) -> str:
         answer_content = ''
-        answer_start_idx = response.find(r"```json")
-        answer_end_idx = response.find(r"```", answer_start_idx + 1)
-        if answer_start_idx != -1 and answer_end_idx != -1:
-            answer_content = response[answer_start_idx:answer_end_idx]
-            answer_content = re.sub(r'```json', '', answer_content)
-            answer_content = re.sub(r'```', '', answer_content)
-        return answer_content
+        try:
+            answer_start_idx = response.find(r"```json")
+            answer_end_idx = response.find(r"```", answer_start_idx + 1)
+            if answer_start_idx != -1 and answer_end_idx != -1:
+                answer_content = response[answer_start_idx:answer_end_idx]
+                answer_content = re.sub(r'```json', '', answer_content)
+                answer_content = re.sub(r'```', '', answer_content)
+                return answer_content
+        except Exception as e:
+            self.clogger.error(f"Error processing answer content: {e}")
+            self.clogger.error(f"Response content: {response}")
 
     def _combine_ChunkResponse_(self,completion) -> Tuple[str, str]:
         if self.Azure_interface:
