@@ -36,6 +36,7 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
 
     for index, item in enumerate(tqdm(all_prompt_list, desc='Processing Prompts', total=len(all_prompt_list), unit='prompts')): 
         combine_response_dict = {}
+        article_id = item.get('article_id', "")
         instruction = ""
         text = item.get('group_text', "")
         prompt_list = item.get('prompt_list', [])
@@ -49,13 +50,14 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
 
                 inference_logger.info(f"Processed num {index+1} prompt")
                 for key, value in answer_json.items():
-                    if key in combine_response_dict:
-                        if isinstance(combine_response_dict[key], list):
-                            combine_response_dict[key].append(value)
-                        else:
-                            combine_response_dict[key] = [combine_response_dict[key], value]
-                    else:
-                        combine_response_dict[key] = value
+                    combine_response_dict[key] = value
+                    # if key in combine_response_dict:
+                    #     if isinstance(combine_response_dict[key], list):
+                    #         combine_response_dict[key].append(value)
+                    #     else:
+                    #         combine_response_dict[key] = [combine_response_dict[key], value]
+                    # else:
+                    #     combine_response_dict[key] = value
                 inference_logger.info(f"processed part: {combine_response_dict.keys()}")
                 
             except Exception as e:
@@ -68,6 +70,7 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
         
         CRF_alpaca_data.append(
             {   
+                'article_id': article_id,
                 'instruction': instruction,
                 'input': text,
                 'output': combine_response_dict
@@ -80,11 +83,13 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
 
 
 ## process multi request to inference server ==> max-workers = workers 
-def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 10, **kwargs) -> List[Dict[str, Any]]:
+def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 50, **kwargs) -> List[Dict[str, Any]]:
     CRF_alpaca_data = []
     
     def process_single_prompt(index, item):
         combine_response_dict = {}
+        article_id = item.get('article_id', "")
+        instruction = ""
         text = item.get('group_text', "")
         prompt_list = item.get('prompt_list', [])
 
@@ -94,13 +99,14 @@ def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_cl
                 answer_json = json.loads(str(answer_content))
 
                 for key, value in answer_json.items():
-                    if key in combine_response_dict:
-                        if isinstance(combine_response_dict[key], list):
-                            combine_response_dict[key].append(value)
-                        else:
-                            combine_response_dict[key] = [combine_response_dict[key], value]
-                    else:
-                        combine_response_dict[key] = value
+                    combine_response_dict[key] = value
+                    # if key in combine_response_dict:
+                    #     if isinstance(combine_response_dict[key], list):
+                    #         combine_response_dict[key].append(value)
+                    #     else:
+                    #         combine_response_dict[key] = [combine_response_dict[key], value]
+                    # else:
+                    #     combine_response_dict[key] = value
                 # inference_logger.info(f"Processed prompt {prompt}")        
                 inference_logger.info(f"Processed num {index+1} prompt")
                 inference_logger.info(f"processed part: {combine_response_dict.keys()}")
@@ -110,7 +116,8 @@ def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_cl
                 continue
         
         return {
-            'instruction': "",
+            'article_id': article_id,
+            'instruction': instruction,
             'input': text,
             'output': combine_response_dict
         }
