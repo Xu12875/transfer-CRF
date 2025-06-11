@@ -1,74 +1,122 @@
 # Transfer_CRF
-**利用fine-tune model 推理得出的字段信息结合QWQ-32B进行本地推理和调用** 
+**利用fine-tune model 推理得出的字段信息结合qwen2.5-32B/QWQ-32B进行本地推理和调用** 
 
 ## 模块结构
 ```shell
-transfer_CRF
-    ├── main.py 
-    ├── transfer_CRF_inference.py # 推理逻辑核心
-    ├── inference_client.py # 用于客户端推理调用
-    ├── prompter.py # 生成或处理提示信息（如 prompt 模板）
-    ├── config.json # 配置文件
-    ├── logger.py # 日志工具
-    ├── utils.py # 工具函数
-    └── .git/
+transfer_CRF/
+        ├── data/
+        ├── logs/
+        ├── prompt_info/
+        ├── server_sh/
+        ├── transfer_data/
+        ├── config.json
+        ├── inference_client.py
+        ├── logger.py
+        ├── main.py
+        ├── prompter_json.py
+        ├── prompter.py
+        ├── transfer_CRF_inference.py
+        └── utils.py
 ```
-- 1. `main.py`：主程序，负责启动推理服务。
-- 2. `transfer_CRF_inference.py`：推理逻辑核心，负责调用QWQ-32B模型进行推理。
-- 3. `inference_client.py`：用于客户端推理调用，提供API接口。
-- 4. `prompter.py`：生成或处理提示信息，生成json schema，分组处理推理字段，生成prompt模板。
-- 5. `config.json`：配置文件，包含模型路径、API地址等信息。
-- 6. `logger.py`：日志工具，用于记录日志信息。
-- 7. `utils.py`：工具函数，提供一些辅助功能。 
+- 1. `data/`：data文件夹，存放数据文件，存放CReDEs和inference data
+- 2. `server_sh` 启动QWQ-32B/Qwen2.5-32B-Instruct模型服务sh
+- 3. `prompt_info/`：base_json 中对针对CReDEs标准进行json的生成 
+- 4. `transfer_CRF_inference.py`：推理逻辑核心，负责调用QWQ-32B/Qwen2.5-32B-Instruct模型进行推理。
+- 5. `inference_client.py`：用于客户端推理调用，提供API接口。
+- 6. `prompter_json.py`：生成或处理提示信息，生成json结构和键值对的描述信息，分组处理推理字段，生成prompt。
+- 7. `config.json`：配置文件，包含模型路径、API地址等信息。
+- 8. `logger.py`：日志工具，用于记录日志信息。
+- 9. `utils.py`：工具函数，提供一些辅助功能。 
 
 ## 主要模块说明
 ### 1. `transfer_CRF/prompt_info`
-这个文件夹下是定义不同数据类型的json shcema，用于生成约束json的prompt模板(**{json_schema}**)。可利用以下库去实现不同数据类型的CRF表的json schema。
+base_json中定义CReDEs 数据文件（xlsx） 的文件处理类`FileProcessor` 和 基于`langchian`的结构化输出`ResponseSchema`生成baseprompt 
 ```python
-from pydantic import BaseModel, Field
-from enum import Enum
-from typing import Optional, Dict, Union, Literal
-...
+from .output_structure import ResponseSchema,StructuredOutputParser
+
 ``` 
-### 2. `prompter.py`
--  定义了不同数据的**prompt**模板，每个class 都继承自 **`CRFModel`**
-    里面定义了分组的算法`match_grouped_label_data()`,将每个字段数据按照组别进行分组，例如
-    ```
-    [
-        ['淋巴结清扫区域:III', '淋巴结清扫区域:LN数量:3', '淋巴结清扫区域:颈清直径:0.3-1.5cm'],
-        ['淋巴结清扫区域:IV', '淋巴结清扫区域:LN数量:6', '淋巴结清扫区域:颈清直径:0.3-1cm']
-    ]
-    ``` 
-    在不同数据的class中可自定义分组情况，不同的分组情况在对应的`transfer_CRF/prompt_info/xxx.py`中定义分组json schema，例如，将分组信息定义在不同的json schema，这个分组设计是人为制定的，根据实际情况进行分组设计（关联程度大的字段信息放在一块）
-    ``` python
-    class Part_AnatomicalSiteDescription(BaseModel):
-        解剖学部位信息: 解剖学部位信息 
+### 2. `prompter_json.py`
 
-    class Part_LymphNodeDescription(BaseModel):
-        阳性淋巴结信息: 阳性淋巴结信息
-
-    class Part_OtherDescription(BaseModel):
-        基本信息描述: 基本信息描述
-    ```
-    具体分组设计可以在每个类中自定义，修改 **`generate_prompt()`** 函数 
-
-- `prompter.py`中的`LABEL_LIST_DICT`,定义的是对应数据的标签数据，具体可看其内容
-
-### 3. `transfer_CRF_inference.py`
-- `local_inference()`：定义了推理逻辑
-注意，在 **# switch CRF_model （注释）** 中定义了不同数据的prompter模型，可进行修改，对应到实际情况添加和修改；
+#### 🧠 模块作用：基于实体分组的Prompt生成器
+##### 📂 核心结构
 ```python
-CRFPrompter = {
-    "blzd": CRFModel_Blzd_Prompter,
-    "grs": CRFModel_Grs_Prompter,
-    "hys": CRFModel_Hys_Prompter,
-    "jws": CRFModel_Jws_Prompter,
-    "ssjl": CRFModel_Ssjl_Prompter,
-    "xbs": CRFModel_Xbs_Prompter,
-    "yxjc": CRFModel_Yxjc_Prompter,
-    "zkjc": CRFModel_Zkjc_Prompter
-}[text_class]
+
+class CReDEsModel
+基础模型类，负责将标签分组，并匹配标注数据与这些标签组。
+
+主要功能：
+
+_group_labels()：将带属性的标签（如 "主要病变:病变大小"）按主实体（如 "主要病变"）进行分组。
+
+match_grouped_label_data()：将标注数据按标签分组组织，形成方便后续处理的结构。
+
+get_unit_grouped_label_key()：获取某一条数据中涉及的主实体。
 ```
+```python
+class CReDEs_Prompter(CReDEsModel)
+扩展自 CReDEsModel，是实际执行 Prompt生成 的类。
+
+主要职责：
+
+使用标注数据和原始文本，结合标签体系和基础Prompt模板，构造出适合LLM抽取的提示词。
+
+支持区分“仅实体”和“实体+属性”的prompt。
+```
+#### 📦 输入数据结构
+**alpaca_data: List[Dict]**
+```json
+[
+  {
+    "input": "原始电子病历文本",
+    "output": "实体标注结果，格式为 实体 或 实体:属性"
+  }
+]
+```
+**LABEL_LIST_DICT_JSON**：定义每种病历类型（如 "blzd"）下的所有可抽取标签。
+
+会被 _group_labels() 方法按实体组织成一个嵌套结构。
+
+#### 🔧 Prompt 构建流程
+**标签分组：**
+
+使用 _group_labels() 将标签按主实体进行分组（有属性和无属性分别处理）。
+
+**数据匹配：**
+
+使用 match_grouped_label_data() 把每条标注数据中提到的标签归入对应实体组。
+
+**生成Prompt：**
+
+遍历每个实体组：
+对于“无属性实体”：将多个实体统一合成一个Prompt。
+对于“有属性实体”：分别为每个主实体生成一个Prompt。
+用 **BASIC_PROMPT.format()** 插入具体的原始文本、标注数据和待填写JSON结构。
+
+
+#### 📝 示例Prompt格式（伪代码）
+```text
+[任务]
+请你使用中文回答...
+
+[病例原文]
+病人男性，45岁...
+
+[标注数据]
+主要病变:病变大小
+主要病变:卫星结节
+
+[json]
+{
+  "主要病变": List[str],  // 信息描述..., 值域为...
+  ...
+}
+
+[输出]
+```
+### 3. `transfer_CRF_inference.py`
+- `local_inference_base_json()`：定义了推理逻辑
+具体实现在代码中体现
+
 
 ## 使用说明
 ### 1. 安装依赖
@@ -132,5 +180,3 @@ log_dir_name="", --日志的存储文件夹名
 store_dir_name="", --结果的存储文件夹名
 store_file_name="xxx.json" --结果的存储文件名
 ```
-
-
