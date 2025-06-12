@@ -113,6 +113,7 @@ def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_cl
 
             except Exception as e:
                 inference_logger.error(f"Error processing prompt {index+1}: {e}")
+                inference_logger.info(f"processed part: {answer_content}")
                 continue
         
         return {

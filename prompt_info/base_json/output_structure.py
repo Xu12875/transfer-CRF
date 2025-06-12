@@ -19,7 +19,7 @@ STRUCTURED_FORMAT_SIMPLE_INSTRUCTIONS = """
 ```"""
 
 
-line_template = '\t"{name}": {type}  // {description}'
+line_template = '\t"{name}": {type}, // {description}'
 
 
 class ResponseSchema(BaseModel):

@@ -30,7 +30,7 @@ BASIC_PROMPT = """
    - (2) 使用英文冒号 ":" 作为键值对分隔符
    - (3) 使用英文逗号 "," 分隔多个键值对
    - (4) 所有键和值均使用英文双引号 " 包裹
-   - (5) 使用英文花括号 {{}} 包裹 JSON 对象
+   - (5) 使用英文花括号 包裹 JSON 对象
    - (6) 使用英文方括号 [] 表示数组（如适用）
    - (7) JSON 中不得使用任何中文符号（包括冒号、逗号、引号、括号等）
    - (8) JSON 中不得出现空格、换行或制表符，整体格式必须紧凑
@@ -41,7 +41,8 @@ BASIC_PROMPT = """
    示例：
    "肝脏最大横径": "4.1cm,3.1cm",
    "肝脏最大纵径": "2.6cm,2.9cm"
-
+若未出现则按照值域要求填写。
+   
 4. [json] 定义了所需填写的数据结构，格式为：
    "字段名": "数据类型"  // 描述信息；值域描述
    - 描述信息：用于判断原文中是否包含该字段信息
@@ -49,7 +50,8 @@ BASIC_PROMPT = """
 
 5. 请严格按照值域描述填写字段值，遵循以下规则：
    - 若原文中信息完全匹配值域描述，则直接填写；
-   - 若无法从文本中确定或值域无法涵盖该信息，填写空字符串 ""。
+   - 无论是什么数据类型，病例原文中未描述的情况下，填写空字符串；
+   - 若无法从文本中确定或值域无法涵盖该信息，填写空字符串。
 
 6. 最终输出仅为 JSON 字符串，不需要解释、分析或中间过程。
 
@@ -63,11 +65,7 @@ BASIC_PROMPT = """
 {grouped_json}
 
 [输出]
-""".format(
-    origin_text="（请在此填入病例原文）",
-    annotation_text="（请在此填入标注数据）",
-    grouped_json="（请在此填入 JSON 模板）"
-)
+"""
 
 
 class CReDEsModel:
@@ -208,18 +206,18 @@ class CReDEs_Prompter(CReDEsModel):
                     # entity with attribute
                     else:
                         prompt_key_list = self.get_unit_grouped_label_key(group_data)
-                        for prompt_key in prompt_key_list:
+                        for prompt_key  in prompt_key_list:
                             basic_prompt = ''
                             json_unit_prompt = ''
                             # Loop format each key in basic prompt
-                            # if prompt_key in grouped_prompt_dict:
-                            json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}\n"
-                            basic_prompt = self.basic_prompt.format(
-                                origin_text=origin_text,
-                                annotation_text=group_data, 
-                                grouped_json=json_unit_prompt
-                                )
-                            single_part_prompt_dict["prompt_list"].append(basic_prompt)
+                            if prompt_key in grouped_prompt_dict:
+                                json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}\n"
+                                basic_prompt = self.basic_prompt.format(
+                                    origin_text=origin_text,
+                                    annotation_text=group_data, 
+                                    grouped_json=json_unit_prompt
+                                    )
+                                single_part_prompt_dict["prompt_list"].append(basic_prompt)
                 except Exception as e:
                     self.logger.error(f"Error processing group {group_name}: {e}")
                     continue
