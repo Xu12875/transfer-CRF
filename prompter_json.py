@@ -206,18 +206,18 @@ class CReDEs_Prompter(CReDEsModel):
                     # entity with attribute
                     else:
                         prompt_key_list = self.get_unit_grouped_label_key(group_data)
-                        for prompt_key  in prompt_key_list:
+                        for prompt_key, _ in grouped_prompt_dict.items():
                             basic_prompt = ''
                             json_unit_prompt = ''
-                            # Loop format each key in basic prompt
-                            if prompt_key in grouped_prompt_dict:
-                                json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}\n"
-                                basic_prompt = self.basic_prompt.format(
-                                    origin_text=origin_text,
-                                    annotation_text=group_data, 
-                                    grouped_json=json_unit_prompt
-                                    )
-                                single_part_prompt_dict["prompt_list"].append(basic_prompt)
+                            # Loop format each key in basic prompt (every key)
+                            # if prompt_key in grouped_prompt_dict:
+                            json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}\n"
+                            basic_prompt = self.basic_prompt.format(
+                                origin_text=origin_text,
+                                annotation_text=group_data, 
+                                grouped_json=json_unit_prompt
+                                )
+                            single_part_prompt_dict["prompt_list"].append(basic_prompt)
                 except Exception as e:
                     self.logger.error(f"Error processing group {group_name}: {e}")
                     continue
