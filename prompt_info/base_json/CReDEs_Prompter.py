@@ -49,7 +49,7 @@ class FileProcessor:
                     if name and name not in data_dict and mtype and value:
                         data_dict[name] = {
                             "metadata_type": mtype,
-                            "metadata_description": f"描述信息:{label_desc},值域描述:{value}"
+                            "metadata_description": f"描述信息:{label_desc}值域描述:{value}"
                         }
         if current_entity is not None:
             CReDEs_dict[current_entity] = data_dict

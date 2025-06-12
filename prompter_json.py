@@ -12,7 +12,62 @@ LABEL_LIST_DICT_JSON = {
     "ssjl": ["手术者", "手术开始时间", "手术结束时间", "手术名称", "术前诊断为肝内胆管癌", "淋巴结侵犯标志", "淋巴结侵犯标志:淋巴结侵犯部位", "淋巴结侵犯标志:淋巴结清扫", "淋巴结侵犯标志:淋巴结清扫范围", "淋巴结侵犯标志:淋巴结清扫数目", "病灶类型", "病灶类型:病灶数目", "病灶类型:病灶大小", "病灶类型:肝段", "病灶类型:肝叶", "胆管癌栓标志", "胆管癌栓标志:胆管分支", "血管癌栓标志", "血管癌栓标志:血管部位", "血管癌栓标志:血管分支", "血管癌栓标志:癌栓处理方式", "侵犯标志", "侵犯标志:侵犯部位", "肝硬化标志", "腹水情况", "转移标志", "转移标志:转移部位", "术中用药", "肝门阻断标志", "肝门阻断标志:肝门阻断类型", "肝门阻断标志:肝门阻断次数", "肝门阻断标志:肝门阻断时间", "放置腹腔引流管标志", "静脉曲张标志", "静脉曲张标志:静脉曲张部位", "静脉曲张标志:静脉曲张程度", "出血标志", "出血标志:出血量", "输血标志", "输血标志:输血类型", "输血标志:输血量"],
     "jrzl": ["肿瘤染色标志", "肿瘤染色标志:TAE术肿瘤范围", "肿瘤染色标志:TAE术肿瘤个数"]
 }
-BASIC_PROMPT = f'[任务]\n请你使用中文回答，你是一位出色的信息抽取专家，目前需要对所提供的中文电子病历文本进行信息抽取，需要抽取信息的文本在最后，请按照[要求]的内容进行信息抽取：\n[要求]\n1. 我将会给你两部分数据，一部分数据是标注后的数据文本-[标注数据]，是由实体和属性组成的一段数据，组成的格式为"实体:属性"，其中如果没有":"连接就是只有实体没有属性，反之则既有实体又有属性。另一部分数据是病例原文-[病例原文]，你需要从这些数据中抽取关键信息填写json\n2.json中没有定义的键值对不能出现在结果中,以下是对json格式的要求\n\t(1). json的键值对必须是字符串类型，不能是数字或其他类型\n\t(2). json的键值对必须是英文冒号":"分隔，不能是中文冒号\n\t(3). json的键值对必须是英文逗号","分隔，不能是中文逗号\n\t(4). json的键值对必须是双引号""包裹，不能是单引号''\n\t(5). json的键值对必须是英文花括号"{{}}"包裹，不能是中文花括号\n\t(6). json的键值对必须是英文方括号"[]"包裹，不能是中文方括号\n\t(7). json的键值对必须是英文等于号"="分隔，不能是中文等于号\n\t(8). json的键值对必须是英文分号";"分隔，不能是中文分号\n\t(9).json中不允许出现空格或制表符或换行符，请确保格式正确无误\n\t(10).请按照[json]中的所定义的键值对进行填写\n3.[json]中定义了"{{ 键名 }}": {{ 数据类型 }}  // {{ 填写描述 }}，其中"数据类型"指的是填写当前键值对的python数据类型；"填写描述"包含两个描述，一个是"描述信息"，另一个是"值域描述"，"描述信息"指的是判断文本中的内容是否符合当前描述，"值域描述"指的是填写当前键值对的取值范围或限制条件\n4.请直接输出json，不需要额外的解释和推理，只需要填写json即可；如果没有json提供给你，则返回```json{{}}```\n5.根据原文判断填写json中的项，如果没有相关信息则json中的项的值为空，切记即使没有对应的信息，也要返回提供给你的json，但是值为空```\n[病例原文]\n{origin_text}\n[标注数据]\n{annotation_text}\n[json]\n{grouped_json}\n[输出]\n'
+BASIC_PROMPT = """
+[任务]
+请使用中文作答。你是一位出色的信息抽取专家，现需从提供的中文电子病历文本中进行信息抽取。请根据以下 [要求] 完成任务。所需处理的原始数据位于 prompt 的最后。
+
+[要求]
+
+1. 你将收到两部分数据：
+   - [标注数据]：由“实体:属性”组成的结构化数据，其中：
+     - 若无“:”，则表示该数据只有实体；
+     - 若有“:”，则为“实体:属性”的格式。
+   - [病例原文]：完整的电子病历原始文本。
+   你需结合这两部分内容，从中抽取关键信息，并填写到指定的 JSON 中。
+
+2. 输出结果必须严格遵循 JSON 的格式规范，具体如下：
+   - (1) 所有键和值必须为字符串类型
+   - (2) 使用英文冒号 ":" 作为键值对分隔符
+   - (3) 使用英文逗号 "," 分隔多个键值对
+   - (4) 所有键和值均使用英文双引号 " 包裹
+   - (5) 使用英文花括号 {{}} 包裹 JSON 对象
+   - (6) 使用英文方括号 [] 表示数组（如适用）
+   - (7) JSON 中不得使用任何中文符号（包括冒号、逗号、引号、括号等）
+   - (8) JSON 中不得出现空格、换行或制表符，整体格式必须紧凑
+   - (9) 若字段值本身采用结构如 "key=value;key2=value2"，请确保使用英文等号 "=" 和英文分号 ";"
+
+3. 若某个字段在原文中出现多次（即多组相同字段值），请按照在原文中出现的顺序，使用英文逗号 "," 拼接各组值，并一并填写。例如：
+
+   示例：
+   "肝脏最大横径": "4.1cm,3.1cm",
+   "肝脏最大纵径": "2.6cm,2.9cm"
+
+4. [json] 定义了所需填写的数据结构，格式为：
+   "字段名": "数据类型"  // 描述信息；值域描述
+   - 描述信息：用于判断原文中是否包含该字段信息
+   - 值域描述：用于约束字段值的填写范围
+
+5. 请严格按照值域描述填写字段值，遵循以下规则：
+   - 若原文中信息完全匹配值域描述，则直接填写；
+   - 若无法从文本中确定或值域无法涵盖该信息，填写空字符串 ""。
+
+6. 最终输出仅为 JSON 字符串，不需要解释、分析或中间过程。
+
+[病例原文]
+{origin_text}
+
+[标注数据]
+{annotation_text}
+
+[json]
+{grouped_json}
+
+[输出]
+""".format(
+    origin_text="（请在此填入病例原文）",
+    annotation_text="（请在此填入标注数据）",
+    grouped_json="（请在此填入 JSON 模板）"
+)
 
 
 class CReDEsModel:
@@ -124,11 +179,11 @@ class CReDEs_Prompter(CReDEsModel):
         grouped_prompt_dict = self._get_base_prompt_dict()
         all_prompt_list = []
         for item in all_data_group_result:
-            article_id = item.get("article_id", "")
+            # article_id = item.get("article_id", "")
             origin_text = item.get("text", "")
             group_result = item.get("group_result", {})
             single_part_prompt_dict = {
-                "article_id": article_id,
+                # "article_id": article_id,
                 "group_text": origin_text,
                 "prompt_list": []
             }
@@ -142,7 +197,11 @@ class CReDEs_Prompter(CReDEsModel):
                             if prompt_key in grouped_prompt_dict:
                                 # combine the 'only entity' prompt --> markdown json
                                 json_unit_prompt += f"{grouped_prompt_dict[prompt_key]}\n"
-                        basic_prompt = self.basic_prompt.format(origin_text=origin_text,annotation_text=group_data, grouped_json=json_unit_prompt)
+                        basic_prompt = self.basic_prompt.format(
+                            origin_text=origin_text,
+                            annotation_text=group_data, 
+                            grouped_json=json_unit_prompt
+                            )
                         single_part_prompt_dict["prompt_list"].append(basic_prompt)
                         # self.logger.info(f"Generated prompt: {basic_prompt}")
 
@@ -152,10 +211,15 @@ class CReDEs_Prompter(CReDEsModel):
                         for prompt_key in prompt_key_list:
                             basic_prompt = ''
                             json_unit_prompt = ''
-                            if prompt_key in grouped_prompt_dict:
-                                json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}\n"
-                                basic_prompt = self.basic_prompt.format(origin_text=origin_text,annotation_text=group_data, grouped_json=json_unit_prompt)
-                                single_part_prompt_dict["prompt_list"].append(basic_prompt)
+                            # Loop format each key in basic prompt
+                            # if prompt_key in grouped_prompt_dict:
+                            json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}\n"
+                            basic_prompt = self.basic_prompt.format(
+                                origin_text=origin_text,
+                                annotation_text=group_data, 
+                                grouped_json=json_unit_prompt
+                                )
+                            single_part_prompt_dict["prompt_list"].append(basic_prompt)
                 except Exception as e:
                     self.logger.error(f"Error processing group {group_name}: {e}")
                     continue
