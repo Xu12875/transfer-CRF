@@ -42,7 +42,7 @@ def process_answer_content_to_json(answer_content: str) -> Dict[str, Any]:
 
         # 2. fix key-value "key: "value" -> "key": "value"
         # 
-        text = re.sub(r'"([^"]+?):\s*"', r'"\1": "', text)
+        text = re.sub(r'"([^"]+):""([^"]+)""', r'"\1": "\2"', text)
 
         # 3. add "" 
         text = re.sub(
