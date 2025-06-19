@@ -4,6 +4,7 @@ from tqdm import tqdm
 from typing import List, Dict, Tuple, Any, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
+from json_repair import repair_json
 
 def load_alpaca_data(file_path:str) -> List[Dict[str, Any]]:
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -33,30 +34,11 @@ def process_answer_content_to_json(answer_content: str) -> Dict[str, Any]:
     try:
         return json.loads(answer_content)
     except json.JSONDecodeError:
-        pass
-    try:
-        # 1. clean // comment
-        lines = answer_content.splitlines()
-        no_comment_lines = [re.sub(r'//.*', '', line) for line in lines]
-        text = '\n'.join(no_comment_lines)
-
-        # 2. fix key-value "key: "value" -> "key": "value"
-        # 
-        text = re.sub(r'"([^"]+):""([^"]+)""', r'"\1": "\2"', text)
-
-        # 3. add "" 
-        text = re.sub(
-            r'(?<!")\b([a-zA-Z0-9_\u4e00-\u9fa5]+)\b(?=\s*:)', r'"\1"', text
-        )
-
-        # 4. remove last item ","
-        text = re.sub(r',(\s*[}\]])', r'\1', text)
-
-        # 5. parse json
-        return json.loads(text)
-
-    except json.JSONDecodeError as e:
-        raise ValueError(f"JSON parse error：{e}")
+        try:
+            repaired_json = repair_json(answer_content)
+            return json.loads(repaired_json)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"JSON parse error after repair: {e}")
     
 
 ## process single request to inference server
