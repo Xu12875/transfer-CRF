@@ -78,12 +78,18 @@ class BasePrompter:
                 )
         return response_schemas
 
-    def get_group_prompt_dict(self) -> Dict[str, str]:
+    def get_group_prompt_dict(self,only_json:bool=False) -> Dict[str, str]:
         response_schemas = self._get_response_schemas()
         grouped_prompt_dict = {}
         for entity, schemas in response_schemas.items():
             output_parser = StructuredOutputParser.from_response_schemas(schemas)
-            json_prompt = output_parser.get_format_instructions()
+            if only_json:
+                ### format not instruction
+                json_prompt = output_parser.get_format_instructions(only_json)
+            else:
+                ### format instruction
+                json_prompt = output_parser.get_format_instructions()
+
             grouped_prompt_dict[entity] = json_prompt
         return grouped_prompt_dict
                 
