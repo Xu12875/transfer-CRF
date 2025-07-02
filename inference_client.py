@@ -1,10 +1,8 @@
-from asyncio import streams
-from http.client import responses
 import re
-from sys import version
 from openai import OpenAI, AzureOpenAI
 from typing import List, Dict, Tuple, Any, Optional
 from logger import CustomLogger
+from transformers import AutoTokenizer
 
 ## local inference model
 class InferenceClient:
@@ -51,6 +49,14 @@ class local_inference_client(InferenceClient):
             answer_content = re.sub(r'```json', '', answer_content)
             answer_content = re.sub(r'```', '', answer_content)
         return answer_content
+
+    def get_tokenizer(self):
+        try:
+            tokenizer = AutoTokenizer.from_pretrained(self.model_name)
+            return tokenizer
+        except Exception as e:
+            self.clogger.error(f"Failed to load tokenizer for model {self.model_name}: {e}")
+            return None
 
     def get_response(self, prompt: str, **kwargs) -> Tuple[str, str, str]:
         try:

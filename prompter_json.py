@@ -3,6 +3,7 @@ import os
 from typing import List, Dict, Tuple, Any, Optional
 from logger import CustomLogger
 from prompt_info.base_json.CReDEs_Prompter import BasePrompter
+from transformers import AutoTokenizer
 
 LABEL_LIST_DICT_JSON = {
     "blzd":["标本来源","标本来源:标本大小","标本来源:解剖肝段","主要病变","主要病变:病变大小","主要病变:病变数量","主要病变:卫星结节","主要病变:是否多灶性生长","主要病变:包膜是否完整","主要病变:是否浸润性生长","主要病变:卫星灶情况","病理学分型","病理学分型:组织学分型","病理学分型:细胞学类型","病理学分型:分化信息","病理学分型:ACJJ分期","病理学分型:病变部位","病理学分型:癌细胞形状","微血管侵犯标志","微血管侵犯标志:MVI分级","微血管侵犯标志:侵犯数量","微血管侵犯标志:侵犯部位","侵犯类型","切缘情况","切缘情况:切缘距离","染色项目及结果","免疫组化项目及结果","肝硬化情况","肝炎分期分级","淋巴结侵犯部位","淋巴结侵犯部位:淋巴结转移阳性数"],
@@ -159,22 +160,94 @@ class CReDEsModel:
         return list(set(grouped_label_dict_key))
 
 class CReDEs_Prompter(CReDEsModel):
-    def __init__(self, label_list_dict:Dict[str,List[str]], text_type:str, basic_prompt:str,logger:CustomLogger,baseprompter_obj:BasePrompter):
+    def __init__(self, label_list_dict:Dict[str,List[str]], text_type:str, basic_prompt:str,logger:CustomLogger,baseprompter_obj:BasePrompter,tokenizer:AutoTokenizer,max_token_len:int):
         super().__init__(label_list_dict, text_type)
         self.text_type = text_type
         self.logger = logger
         self.basic_prompt = basic_prompt
         self.baseprompter = baseprompter_obj
+        self.tokenizer = tokenizer
+        self.max_token_len = max_token_len
         self.grouped_label_data = super()._group_labels(label_list_dict, text_type)
     
-    def _get_base_prompt_dict(self) -> Dict[str, str]:
-        return self.baseprompter.get_group_prompt_dict()
+    def _get_base_prompt_dict(self, only_json:bool=False) -> Dict[str, str]:
+        return self.baseprompter.get_group_prompt_dict(only_json)
     
+    def _substr_json(self,json_prompt:str) -> str:
+        """
+        ```json
+        {
+            "foo": List[string],  // a list of strings
+            "bar": string  // a string
+        }
+        ```
+        """
+        temp_json_str = str(json_prompt).split("```json")[1].split("```")[0]
+        col_str = str(temp_json_str).split("\n{")[1].split("\n}")[0]
+        lines =  col_str.splitlines()
+        return [line for line in lines if line.strip()]      
+
+
+    def _process_grouped_json(self,prompt_group_json:List[str]) -> str:
+        json_str_format = """```json\n{{\n{combine_json_str}\n}}\n```"""
+        json_prompt_list = []
+        for json_prompt in prompt_group_json:
+            json_prompt_list.extend(self._substr_json(json_prompt))
+        combine_json_str = "\n".join(json_prompt_list)
+        return json_str_format.format(combine_json_str=combine_json_str)
+
     
-    def generate_prompt(self,alpaca_data:List[Dict[str, Any]]) -> str:
+    def _grouped_data(self, data_json_list: List[Dict[str, Any]]) -> List[str]:
+        prompt_list = []
+        current_group_data = []
+        current_group_json = []
+        current_origin_text = ""
+        
+        for item in data_json_list:
+            group_data = item.get("group_data", [])
+            json_prompt = item.get("json_prompt", "")
+            origin_text = item.get("text", "")
+            
+            temp_group_data = current_group_data + group_data
+            temp_group_json = current_group_json + [json_prompt]
+            temp_prompt = self.basic_prompt.format(
+                origin_text=origin_text,
+                annotation_text=temp_group_data,
+                grouped_json=self._process_grouped_json(temp_group_json)
+            )
+            token_count = len(self.tokenizer(temp_prompt)["input_ids"])
+            
+            if token_count <= (self.max_token_len)/2:
+                current_group_data = temp_group_data
+                current_group_json = temp_group_json
+                current_origin_text = origin_text
+            else:
+                if current_group_data:
+                    final_prompt = self.basic_prompt.format(
+                        origin_text=current_origin_text,
+                        annotation_text=current_group_data,
+                        grouped_json=self._process_grouped_json(current_group_json)
+                    )
+                    prompt_list.append(final_prompt)
+                current_group_data = group_data
+                current_group_json = [json_prompt]
+                current_origin_text = origin_text
+
+        if current_group_data:
+            final_prompt = self.basic_prompt.format(
+                origin_text=current_origin_text,
+                annotation_text=current_group_data,
+                grouped_json=self._process_grouped_json(current_group_json)
+            )
+            prompt_list.append(final_prompt)
+
+        return prompt_list
+
+
+    def generate_prompt(self,alpaca_data:List[Dict[str, Any]],grouped:bool=False) -> str:
         all_data_group_result = self.match_grouped_label_data(alpaca_data)
         # self.logger.info(all_data_group_result)
-        grouped_prompt_dict = self._get_base_prompt_dict()
+        grouped_prompt_dict = self._get_base_prompt_dict(grouped)
         all_prompt_list = []
         for item in all_data_group_result:
             # article_id = item.get("article_id", "")
@@ -185,42 +258,42 @@ class CReDEs_Prompter(CReDEsModel):
                 "group_text": origin_text,
                 "prompt_list": []
             }
-            for group_name, group_data in group_result.items():
-                # only entity
-                try:
-                    if group_name == "non_attr_entities": 
-                        prompt_key_list = self.get_unit_grouped_label_key(group_data)
-                        json_unit_prompt = ''
-                        for prompt_key in prompt_key_list:
-                            if prompt_key in grouped_prompt_dict:
-                                # combine the 'only entity' prompt --> markdown json
-                                json_unit_prompt += f"{grouped_prompt_dict[prompt_key]}\n"
-                        basic_prompt = self.basic_prompt.format(
-                            origin_text=origin_text,
-                            annotation_text=group_data, 
-                            grouped_json=json_unit_prompt
-                            )
-                        single_part_prompt_dict["prompt_list"].append(basic_prompt)
-                        # self.logger.info(f"Generated prompt: {basic_prompt}")
+            try:
+                if grouped:
+                    ## group optimization and only json
+                    ## prompt_key = group_name
+                    data_json_list = []                        
+                    for prompt_key, _ in grouped_prompt_dict.items():
+                        # for group_name, group_data in group_result.items():
+                            json_unit_prompt = grouped_prompt_dict[prompt_key]
+                            data_json_dict = {
+                                "text": origin_text,
+                                "group_data":group_result[prompt_key],
+                                "json_prompt":json_unit_prompt
+                            }
+                            data_json_list.append(data_json_dict)
 
-                    # entity with attribute
-                    else:
-                        prompt_key_list = self.get_unit_grouped_label_key(group_data)
+                    # grouped_prompt
+                    single_part_prompt_dict["prompt_list"] = self._grouped_data(data_json_list)
+                else:
+                    for group_name, group_data in group_result.items():
+                        # Loop format each key in basic prompt (every key)
                         for prompt_key, _ in grouped_prompt_dict.items():
                             basic_prompt = ''
                             json_unit_prompt = ''
                             # Loop format each key in basic prompt (every key)
+                            ## prompt_list contain all the key in basic prompt(not grouped)
                             # if prompt_key in grouped_prompt_dict:
-                            json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}\n"
+                            json_unit_prompt = f"{grouped_prompt_dict[prompt_key]}"
                             basic_prompt = self.basic_prompt.format(
                                 origin_text=origin_text,
                                 annotation_text=group_data, 
                                 grouped_json=json_unit_prompt
                                 )
                             single_part_prompt_dict["prompt_list"].append(basic_prompt)
-                except Exception as e:
-                    self.logger.error(f"Error processing group {group_name}: {e}")
-                    continue
+            except Exception as e:
+                self.logger.error(f"Error processing item {item}: {e}")
+                continue
             all_prompt_list.append(single_part_prompt_dict)
 
         return all_prompt_list
