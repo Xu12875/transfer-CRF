@@ -56,7 +56,7 @@ Type[online_inference_client]],
             prompter_logger = prompter_logger
             prompter_setup = prompter_cls(label_list_dict=label_list_dicts,text_type = text_type,logger=prompter_logger,basic_prompt=BASIC_PROMPT,baseprompter_obj=baseprompter)
 
-            all_prompt_list = prompter_setup.generate_prompt(alpaca_data[:20])
+            all_prompt_list = prompter_setup.generate_prompt(alpaca_data)
         
             inference_alpaca_data = process_prompt_to_client(all_prompt_list,local_inference_client_setup,inference_logger,temperature=temperature)
             inference_logger.info(f"local inference client get {len(inference_alpaca_data)} data")
@@ -234,14 +234,13 @@ def local_inference_base_json(text_class:str,log_dir_name:str,store_dir_name:str
 
 def main():
     ### local inference 
-    local_inference_base_json(text_class="blzd",log_dir_name="blzd_v1",store_dir_name="blzd",store_file_name="blzd.json")
-    # local_inference(text_class="grs",log_dir_name="grs",store_dir_name="grs",store_file_name="grs.json")
-    # local_inference(text_class="hys",log_dir_name="hys",store_dir_name="hys",store_file_name="hys.json")
-    # local_inference(text_class="jws",log_dir_name="jws",store_dir_name="jws",store_file_name="jws.json")
-    # local_inference(text_class="ssjl",log_dir_name="ssjl",store_dir_name="ssjl",store_file_name="ssjl.json")
-    # local_inference(text_class="xbs",log_dir_name="xbs",store_dir_name="xbs",store_file_name="xbs.json")
-    # local_inference(text_class="yxjc",log_dir_name="yxjc",store_dir_name="yxjc",store_file_name="yxjc_30.json")
-    # local_inference(text_class="zkjc",log_dir_name="zkjc",store_dir_name="zkjc",store_file_name="zkjc_30.json")   
+    local_inference_base_json(text_class="blzd",log_dir_name="blzd",store_dir_name="blzd",store_file_name="blzd.json")
+    local_inference_base_json(text_class="jrzl",log_dir_name="jrzl",store_dir_name="jrzl",store_file_name="jrzl.json")
+    local_inference_base_json(text_class="ssjl",log_dir_name="ssjl",store_dir_name="ssjl",store_file_name="ssjl.json")
+    local_inference_base_json(text_class="rcbc",log_dir_name="rcbc",store_dir_name="rcbc",store_file_name="rcbc.json")
+    local_inference_base_json(text_class="jc",log_dir_name="jc",store_dir_name="jc",store_file_name="jc.json")
+    local_inference_base_json(text_class="ryjl",log_dir_name="ryjl",store_dir_name="ryjl",store_file_name="ryjl.json")
+
     
     ### online inference 
     # online_inference(text_class="blzd",log_dir_name="blzd",store_dir_name="blzd",store_file_name="blzd_30.json")

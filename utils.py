@@ -3,6 +3,8 @@ import os
 from tqdm import tqdm
 from typing import List, Dict, Tuple, Any, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
+import re
+from json_repair import repair_json
 
 def load_alpaca_data(file_path:str) -> List[Dict[str, Any]]:
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -28,7 +30,16 @@ def save_alpaca_data(data:List[Dict[str, Any]], store_dir:str, file_name:str):
         json.dump(data, f, ensure_ascii=False, indent=2)
     print(f"Data saved to {file_path}")
 
-
+def process_answer_content_to_json(answer_content: str) -> Dict[str, Any]:
+    try:
+        return json.loads(answer_content)
+    except json.JSONDecodeError:
+        try:
+            repaired_json = repair_json(answer_content)
+            return json.loads(repaired_json)
+        except json.JSONDecodeError as e:
+            raise ValueError(f"JSON parse error after repair: {e}")
+    
 
 ## process single request to inference server
 def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, **kwargs) -> List[Dict[str, Any]]:
@@ -36,6 +47,7 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
 
     for index, item in enumerate(tqdm(all_prompt_list, desc='Processing Prompts', total=len(all_prompt_list), unit='prompts')): 
         combine_response_dict = {}
+        article_id = item.get('article_id', "")
         instruction = ""
         text = item.get('group_text', "")
         prompt_list = item.get('prompt_list', [])
@@ -45,17 +57,18 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
                 _, answer_content = inference_client.get_response(prompt, **kwargs)
                 # print(f"response: {_}")
                 # print(f"answer_content: {answer_content}")
-                answer_json = json.loads(str(answer_content))
-
+                answer_json = process_answer_content_to_json(str(answer_content))
+                
                 inference_logger.info(f"Processed num {index+1} prompt")
                 for key, value in answer_json.items():
-                    if key in combine_response_dict:
-                        if isinstance(combine_response_dict[key], list):
-                            combine_response_dict[key].append(value)
-                        else:
-                            combine_response_dict[key] = [combine_response_dict[key], value]
-                    else:
-                        combine_response_dict[key] = value
+                    combine_response_dict[key] = value
+                    # if key in combine_response_dict:
+                    #     if isinstance(combine_response_dict[key], list):
+                    #         combine_response_dict[key].append(value)
+                    #     else:
+                    #         combine_response_dict[key] = [combine_response_dict[key], value]
+                    # else:
+                    #     combine_response_dict[key] = value
                 inference_logger.info(f"processed part: {combine_response_dict.keys()}")
                 
             except Exception as e:
@@ -68,6 +81,7 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
         
         CRF_alpaca_data.append(
             {   
+                'article_id': article_id,
                 'instruction': instruction,
                 'input': text,
                 'output': combine_response_dict
@@ -80,37 +94,42 @@ def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], infer
 
 
 ## process multi request to inference server ==> max-workers = workers 
-def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 10, **kwargs) -> List[Dict[str, Any]]:
+def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 50, **kwargs) -> List[Dict[str, Any]]:
     CRF_alpaca_data = []
     
     def process_single_prompt(index, item):
         combine_response_dict = {}
+        article_id = item.get('article_id', "")
+        instruction = ""
         text = item.get('group_text', "")
         prompt_list = item.get('prompt_list', [])
 
         for prompt in prompt_list:
             try:
                 _, answer_content = inference_client.get_response(prompt, **kwargs)
-                answer_json = json.loads(str(answer_content))
+                answer_json = process_answer_content_to_json(str(answer_content))
 
                 for key, value in answer_json.items():
-                    if key in combine_response_dict:
-                        if isinstance(combine_response_dict[key], list):
-                            combine_response_dict[key].append(value)
-                        else:
-                            combine_response_dict[key] = [combine_response_dict[key], value]
-                    else:
-                        combine_response_dict[key] = value
+                    combine_response_dict[key] = value
+                    # if key in combine_response_dict:
+                    #     if isinstance(combine_response_dict[key], list):
+                    #         combine_response_dict[key].append(value)
+                    #     else:
+                    #         combine_response_dict[key] = [combine_response_dict[key], value]
+                    # else:
+                    #     combine_response_dict[key] = value
                 # inference_logger.info(f"Processed prompt {prompt}")        
                 inference_logger.info(f"Processed num {index+1} prompt")
                 inference_logger.info(f"processed part: {combine_response_dict.keys()}")
 
             except Exception as e:
                 inference_logger.error(f"Error processing prompt {index+1}: {e}")
+                inference_logger.info(f"processed part: {answer_content}")
                 continue
         
         return {
-            'instruction': "",
+            'article_id': article_id,
+            'instruction': instruction,
             'input': text,
             'output': combine_response_dict
         }

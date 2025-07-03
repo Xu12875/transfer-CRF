@@ -1,21 +1,21 @@
 import json
 import os
 from typing import List, Dict, Tuple, Any, Optional
-from prompt_info.crf_model_blzd import Part_AnatomicalSiteDescription,Part_LymphNodeDescription,Part_OtherDescription
-from prompt_info.crf_model_grs import HealthHistory
-from prompt_info.crf_model_hys import MarriageFertilityHistory
-from prompt_info.crf_model_jws import MedicalHistory
-from prompt_info.crf_model_xbs import Part_OralMucosalHistory,Part_PastMedicalHistory
-from prompt_info.crf_model_yxjc import Part_AnatomicalSiteDescription_image,Part_LymphNodeDescription_image
-from prompt_info.crf_model_zkjc import Part_AnatomicalSiteDescription_SE,Part_LymphNodeDescription_SE
-from prompt_info.crf_model_ssjl import SurgeryRecord
+from prompt_info.base_pydantic.crf_model_blzd import Part_AnatomicalSiteDescription,Part_LymphNodeDescription,Part_OtherDescription
+from prompt_info.base_pydantic.crf_model_grs import HealthHistory
+from prompt_info.base_pydantic.crf_model_hys import MarriageFertilityHistory
+from prompt_info.base_pydantic.crf_model_jws import MedicalHistory
+from prompt_info.base_pydantic.crf_model_xbs import Part_OralMucosalHistory,Part_PastMedicalHistory
+from prompt_info.base_pydantic.crf_model_yxjc import Part_AnatomicalSiteDescription_image,Part_LymphNodeDescription_image
+from prompt_info.base_pydantic.crf_model_zkjc import Part_AnatomicalSiteDescription_SE,Part_LymphNodeDescription_SE
+from prompt_info.base_pydantic.crf_model_ssjl import SurgeryRecord
 
 from logger import CustomLogger
 
 
 LABEL_LIST_DICT = {
     "xbs":["既往口腔病灶切除史","既往口腔病灶切除史:既往口腔病灶切除时间","既往颈淋巴结清扫史","既往颈淋巴结清扫史:既往颈淋巴结清扫时间","既往化疗史","既往化疗史:既往化疗时间","既往化疗史:既往化疗方案","既往化疗史:既往化疗次数","既往放疗史","既往放疗史:既往放疗时间","既往放疗史:既往放疗方式","既往放疗史:既往放疗次数","肿瘤病灶性质","既往黏膜病史"],
-    "blzd":["分化信息","HPV","P16","切缘","神经侵犯","脉管侵犯","解剖学部位","解剖学部位:解剖学方位","解剖学部位:原发灶大小","解剖学部位:DOI","淋巴结清扫区域","淋巴结清扫区域:LN清扫方位","淋巴结清扫区域:LN数量","淋巴结清扫区域:颈清直径","淋巴结清扫区域:阳性LN数量","淋巴结清扫区域:胞膜外侵犯"],
+    "blzd":["分化信息","HPV","P16","切缘","神经侵犯","脉管侵犯","解剖学部位","解剖学部位:解剖学方位","解剖学部位:原发灶大小","解剖学部位:DOI","淋巴结清扫区域","淋巴结清扫区域:LN清扫方位","淋巴结清扫区域:LN数量","淋巴结清扫区域:颈清直径","淋巴结清扫区域:阳性LN数量","淋 巴结清扫区域:胞膜外侵犯"],
     "hys":["婚姻状况","生育状况"],
     "grs":["吸烟史","饮酒史","槟榔史"],
     "jws":["高血压","糖尿病","冠心病","血液系统疾病","其他肿瘤史","抗凝药物史"],

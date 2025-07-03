@@ -57,6 +57,11 @@ class local_inference_client(InferenceClient):
             completion = self.client.chat.completions.create(
                 model=self.model_name,
                 messages=[{"role": "user", "content": prompt}],
+                # qwen3 no-thinking
+                extra_body={
+                    # "top_k": 20, 
+                    "chat_template_kwargs": {"enable_thinking": False},
+                },
                 **kwargs
             )
             response = completion.choices[0].message.content
