@@ -17,7 +17,7 @@ class FileProcessor:
         data_dict = {}
 
         for _, row in df.iterrows():
-            label_name = str(row['一级标签名称']).strip()
+            label_name = str(row['标签名称']).strip()
             label_class = str(row['标签类型']).strip()
 
             label_desc = str(row.get('标签内容说明（描述）', '')).strip()
