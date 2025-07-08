@@ -7,7 +7,7 @@
             "model_name": "/data/hf_cache/models/Qwen/Qwen3-32B",
             "temperature": 0.0,
             "top_p": 0.9,
-            "max_length": 8196,
+            "max_token_len": 4096,
             "do_sample": true,
             "top_k": 0,
             "use_beam_search": false,
@@ -16,24 +16,28 @@
         },
         "data": {
             "transfer_data_path": {
-                "blzd": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/dg_data/blzd/dg_blzd_200.json",
-                "ryjl": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/dg_data/ryjl/ryjl_100.json",
-                "ssjl": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/dg_data/ssjl/ssjl_100.json",
-                "rcbc": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/dg_data/rcbc/rcbc_100.json",
-                "jc": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/dg_data/jc/jc_100.json",
-                "jrzl": "/home/xuhaitong/projects/crm-llm/data/dataset/process_dataset/dg_data/jrzl/jrzl_100.json"
+                "blzd": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/blzd_alpaca.json",
+                "grs": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/grs_alpaca.json",
+                "hys": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/hys_alpaca.json",
+                "jws": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/jws_alpaca.json",
+                "ssjl": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/ssjl_alpaca.json",
+                "xbs": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/xbs_alpaca.json",
+                "yxjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/yxjc_alpaca.json",
+                "zkjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/zkjc_alpaca.json"
             },
             "CReDEs_mapping_path": {
-                "blzd": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/v3/dg_blzd.xlsx",
-                "ryjl": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/v3/dg_ryjl.xlsx",
-                "ssjl": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/v3/dg_ssjl.xlsx",
-                "rcbc": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/v3/dg_rcbc.xlsx",
-                "jc": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/v3/dg_jc.xlsx",
-                "jrzl": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/v3/dg_jrzl.xlsx"
+                "blzd": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_blzd.xlsx",
+                "grs": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_grs.xlsx",
+                "hys": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_hys.xlsx",
+                "jws": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_jws.xlsx",
+                "ssjl": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_ssjl.xlsx",
+                "xbs": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_xbs.xlsx",
+                "yxjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_yxjc.xlsx",
+                "zkjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_zkjc.xlsx"
             }
         },
         "store_transfer_data": {
-            "store_transfer_data_path_dir": "/home/xuhaitong/projects/temp/transfer_CRF/transfer_data/dg_transfer_data/Qwen3_32B_no_thinking_v3",
+            "store_transfer_data_path_dir": "/home/xuhaitong/projects/temp/transfer_CRF/ablation_study/output/jy_v2",
             "store_transfer_data_file_name": "blzd_CRF_alpaca.json"
         }
     },
@@ -65,6 +69,6 @@
         }
     },
     "log": {
-        "log_dir": "/home/xuhaitong/projects/temp/transfer_CRF/logs/local_inference_Qwen3_32B_nothinking_v3"
+        "log_dir": "/home/xuhaitong/projects/temp/transfer_CRF/logs/ablation_study_v2"
     }
 }

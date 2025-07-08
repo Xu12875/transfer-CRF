@@ -38,6 +38,10 @@ Type[online_inference_client]],
         ## setup local inference client
         local_inference_client_setup = inference_client_cls(model_name=model_name, base_url=base_url, api_key=api_token, clogger=client_logger)
         
+        ## init tokenizer
+        local_tokenizer = local_inference_client_setup.get_tokenizer()
+        max_token_len = model_config['max_token_len']
+
         ## setup prompter and load data
         data_config =local_inference_config['data']
         alpaca_data = load_alpaca_data(data_config['transfer_data_path'][text_type])
@@ -54,10 +58,13 @@ Type[online_inference_client]],
             baseprompter = BasePrompter(CReDEs_dict=CReDEs_dict)
             # init prompter
             prompter_logger = prompter_logger
-            prompter_setup = prompter_cls(label_list_dict=label_list_dicts,text_type = text_type,logger=prompter_logger,basic_prompt=BASIC_PROMPT,baseprompter_obj=baseprompter)
+            prompter_setup = prompter_cls(label_list_dict=label_list_dicts,text_type = text_type,logger=prompter_logger,basic_prompt=BASIC_PROMPT,baseprompter_obj=baseprompter,tokenizer=local_tokenizer,max_token_len=max_token_len)
 
-            all_prompt_list = prompter_setup.generate_prompt(alpaca_data)
-        
+            # generate prompt
+            ## TODO: add parma --> grouped: combine json
+            all_prompt_list = prompter_setup.generate_prompt(alpaca_data,grouped=True)
+
+            # sent prompt to client
             inference_alpaca_data = process_prompt_to_client(all_prompt_list,local_inference_client_setup,inference_logger,temperature=temperature)
             inference_logger.info(f"local inference client get {len(inference_alpaca_data)} data")
 
