@@ -1,17 +1,21 @@
 import json
 import os
+import time
 from tqdm import tqdm
 from typing import List, Dict, Tuple, Any, Optional
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import re
 from json_repair import repair_json
+from functools import wraps
+
+
 
 def load_alpaca_data(file_path:str) -> List[Dict[str, Any]]:
     with open(file_path, 'r', encoding='utf-8') as f:
         data = json.load(f)
     return data
 
-def  load_config(file_path:str) -> Dict[str, Any]:
+def load_config(file_path:str) -> Dict[str, Any]:
     with open(file_path, 'r', encoding='utf-8') as f:
         config = json.load(f)
     return config
@@ -41,66 +45,21 @@ def process_answer_content_to_json(answer_content: str) -> Dict[str, Any]:
             raise ValueError(f"JSON parse error after repair: {e}")
     
 
-## process single request to inference server
-def process_prompt_to_client_single(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, **kwargs) -> List[Dict[str, Any]]:
-    CRF_alpaca_data = []
-
-    for index, item in enumerate(tqdm(all_prompt_list, desc='Processing Prompts', total=len(all_prompt_list), unit='prompts')): 
-        combine_response_dict = {}
-        article_id = item.get('article_id', "")
-        instruction = ""
-        text = item.get('group_text', "")
-        prompt_list = item.get('prompt_list', [])
-
-        for prompt in prompt_list:
-            try:
-                _, answer_content = inference_client.get_response(prompt, **kwargs)
-                # print(f"response: {_}")
-                # print(f"answer_content: {answer_content}")
-                answer_json = process_answer_content_to_json(str(answer_content))
-                
-                inference_logger.info(f"Processed num {index+1} prompt")
-                for key, value in answer_json.items():
-                    combine_response_dict[key] = value
-                    # if key in combine_response_dict:
-                    #     if isinstance(combine_response_dict[key], list):
-                    #         combine_response_dict[key].append(value)
-                    #     else:
-                    #         combine_response_dict[key] = [combine_response_dict[key], value]
-                    # else:
-                    #     combine_response_dict[key] = value
-                inference_logger.info(f"processed part: {combine_response_dict.keys()}")
-                
-            except Exception as e:
-                inference_logger.error(f"Error: {e}")
-                inference_logger.error(f"Unexpected response format from inference_client.get_response: \n{prompt}")
-                continue
-            except json.JSONDecodeError:
-                inference_logger.error(f"Failed to decode JSON from inference_client response: \n{answer_content}")
-                continue
-        
-        CRF_alpaca_data.append(
-            {   
-                'article_id': article_id,
-                'instruction': instruction,
-                'input': text,
-                'output': combine_response_dict
-            }
-        )
-        inference_logger.info(f"Processing complete for input: {index+1} prompt")
-        inference_logger.info(f"data lenth: {len(CRF_alpaca_data)}")
-
-    return CRF_alpaca_data
-
 
 ## process multi request to inference server ==> max-workers = workers 
-def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_client: Any, inference_logger: Any, max_workers: int = 50, **kwargs) -> List[Dict[str, Any]]:
-    CRF_alpaca_data = []
-    
-    def process_single_prompt(index, item):
+def process_prompt_to_client(
+    all_prompt_list: List[Dict[str, Any]],
+    inference_client: Any,
+    inference_logger: Any,
+    max_workers: int = 10,
+    **kwargs
+) -> List[Dict[str, Any]]:
+
+    CRCDEs_alpaca_data = []
+
+    def process_single_prompt(index: int, item: Dict[str, Any]) -> Dict[str, Any]:
         combine_response_dict = {}
         article_id = item.get('article_id', "")
-        instruction = ""
         text = item.get('group_text', "")
         prompt_list = item.get('prompt_list', [])
 
@@ -109,38 +68,49 @@ def process_prompt_to_client(all_prompt_list: List[Dict[str, Any]], inference_cl
                 _, answer_content = inference_client.get_response(prompt, **kwargs)
                 answer_json = process_answer_content_to_json(str(answer_content))
 
+                # 累积相同 key
                 for key, value in answer_json.items():
-                    combine_response_dict[key] = value
-                    # if key in combine_response_dict:
-                    #     if isinstance(combine_response_dict[key], list):
-                    #         combine_response_dict[key].append(value)
-                    #     else:
-                    #         combine_response_dict[key] = [combine_response_dict[key], value]
-                    # else:
-                    #     combine_response_dict[key] = value
-                # inference_logger.info(f"Processed prompt {prompt}")        
-                inference_logger.info(f"Processed num {index+1} prompt")
-                inference_logger.info(f"processed part: {combine_response_dict.keys()}")
+                    if key in combine_response_dict:
+                        if isinstance(combine_response_dict[key], list):
+                            combine_response_dict[key].append(value)
+                        else:
+                            combine_response_dict[key] = [combine_response_dict[key], value]
+                    else:
+                        combine_response_dict[key] = value
+
+                inference_logger.info(f"current prompt: {prompt}")
+                inference_logger.info(f"Processed prompt {index+1}/{len(all_prompt_list)}")
+                inference_logger.info(f"Current keys: {list(combine_response_dict.keys())}")
 
             except Exception as e:
                 inference_logger.error(f"Error processing prompt {index+1}: {e}")
-                inference_logger.info(f"processed part: {answer_content}")
+                inference_logger.info(f"Last answer content: {answer_content if 'answer_content' in locals() else 'N/A'}")
                 continue
-        
+
         return {
             'article_id': article_id,
-            'instruction': instruction,
-            'input': text,
+            'text': text,
             'output': combine_response_dict
         }
 
     with ThreadPoolExecutor(max_workers=max_workers) as executor:
-        future_to_index = {executor.submit(process_single_prompt, i, item): i for i, item in enumerate(all_prompt_list)}
-        for future in tqdm(as_completed(future_to_index), desc='Processing Prompts', total=len(all_prompt_list), unit='prompts'):
+        futures = {executor.submit(process_single_prompt, i, item): i for i, item in enumerate(all_prompt_list)}
+        for future in tqdm(as_completed(futures), desc='Processing Prompts', total=len(all_prompt_list), unit='prompts'):
             try:
                 result = future.result()
-                CRF_alpaca_data.append(result)
+                CRCDEs_alpaca_data.append(result)
             except Exception as e:
                 inference_logger.error(f"Error in thread execution: {e}")
-    
-    return CRF_alpaca_data
+
+    return CRCDEs_alpaca_data
+
+
+def timeit(func):
+    @wraps(func)
+    def wrapper(*args, **kwargs):
+        start_time = time.time()
+        result = func(*args, **kwargs)
+        end_time = time.time()
+        print(f"{func.__name__} 执行耗时: {end_time - start_time:.2f} 秒")
+        return result
+    return wrapper

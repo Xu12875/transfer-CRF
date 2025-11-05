@@ -41,17 +41,17 @@ class local_inference_client(InferenceClient):
 
     @classmethod
     def _get_answer(self, response: str) -> str:
-        answer_content = ''
         try:
-            answer_start_idx = response.find(r"```json")
-            answer_end_idx = response.find(r"```", answer_start_idx + 1)
-            if answer_start_idx != -1 and answer_end_idx != -1:
-                answer_content = response[answer_start_idx:answer_end_idx]
-                answer_content = re.sub(r'```json', '', answer_content)
-                answer_content = re.sub(r'```', '', answer_content)
-                return answer_content
-            else:
-                return response
+            start_token = "```json"
+            end_token = "```"
+            answer_start_idx = response.find(start_token)
+            if answer_start_idx != -1:
+                answer_start_idx += len(start_token)
+                answer_end_idx = response.find(end_token, answer_start_idx)
+                if answer_end_idx != -1:
+                    answer_content = response[answer_start_idx:answer_end_idx].strip()
+                    return answer_content
+            return response
         except Exception as e:
             self.clogger.error(f"Error occurred: {e}")
             return response
@@ -64,7 +64,7 @@ class local_inference_client(InferenceClient):
             self.clogger.error(f"Failed to load tokenizer for model {self.model_name}: {e}")
             return None
 
-    def get_response(self, prompt: str, **kwargs) -> Tuple[str, str, str]:
+    def get_response(self, prompt: str, **kwargs) -> Tuple[Optional[str], Optional[str]]:
         try:
             completion = self.client.chat.completions.create(
                 model=self.model_name,
@@ -77,14 +77,18 @@ class local_inference_client(InferenceClient):
                 **kwargs
             )
             response = completion.choices[0].message.content
-            self.clogger.info(f"Response: {response}")
+            self.clogger.info(f"Response: {response[:200]}...")
             answer_content = self._get_answer(response)
             reasoning_content = self._get_reasoning_content(response)
+            if reasoning_content is not None:
+                return reasoning_content, answer_content
+            else:
+                return "", answer_content
             # self.clogger.info(f"answer_content: {answer_content}, reasoning_content: {reasoning_content}")
-            return reasoning_content, answer_content
         except Exception as e:
             self.clogger.error(f"Error occurred: {e}")
-            self.clogger.error(f"answer_content: {answer_content}, reasoning_content: {reasoning_content}")
+            self.clogger.debug(f"Prompt: {prompt[:200]}...")
+            self.clogger.debug(f"answer_content: {answer_content}, reasoning_content: {reasoning_content}")
             return None, None
   
 
