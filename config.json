@@ -2,12 +2,12 @@
     "local_inference": {
         "model_config": {
             "model_path": "/data/hf_cache/models/Qwen/Qwen3-32B",
-            "base_url": "http://localhost:8030/v1",
+            "base_url": "http://localhost:8081/v1",
             "api_token": "token-abc123",
             "model_name": "/data/hf_cache/models/Qwen/Qwen3-32B",
             "temperature": 0.0,
             "top_p": 0.9,
-            "max_token_len": 4096,
+            "max_token_len": 16384,
             "do_sample": true,
             "top_k": 0,
             "use_beam_search": false,
@@ -16,28 +16,21 @@
         },
         "data": {
             "transfer_data_path": {
-                "blzd": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/blzd_alpaca.json",
-                "grs": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/grs_alpaca.json",
-                "hys": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/hys_alpaca.json",
-                "jws": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/jws_alpaca.json",
-                "ssjl": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/ssjl_alpaca.json",
-                "xbs": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/xbs_alpaca.json",
-                "yxjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/yxjc_alpaca.json",
-                "zkjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/ablation_study/jy/Alpaca_data/zkjc_alpaca.json"
+                "病理": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/bl/dg_2048_bl_new.json",
+                "过敏史": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/gms/dg_2048_gms_new.json",
+                "个人史": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/grs/dg_2048_grs_new.json",
+                "婚育史": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/hys/dg_2048_hys_new.json",
+                "既往史": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/jws/dg_2048_jws_new.json",
+                "家族史": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/jzs/dg_2048_jzs_new.json",
+                "物理检查": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/wljc/dg_2048_wljc_new.json",
+                "现病史": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/xbs/dg_2048_xbs_new.json",
+                "诊断": "/home/xuhaitong/projects/temp/transfer_CRF/data/infrence_data/xk_large_inference/zd/dg_2048_zd_new.json"
             },
-            "CReDEs_mapping_path": {
-                "blzd": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_blzd.xlsx",
-                "grs": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_grs.xlsx",
-                "hys": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_hys.xlsx",
-                "jws": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_jws.xlsx",
-                "ssjl": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_ssjl.xlsx",
-                "xbs": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_xbs.xlsx",
-                "yxjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_yxjc.xlsx",
-                "zkjc": "/home/xuhaitong/projects/temp/transfer_CRF/data/CReDEs/jy/jy_zkjc.xlsx"
-            }
+            "label_mapping_path": "/home/xuhaitong/projects/temp/transfer_CRF/data/Mapping_file/胸科_标签.csv",
+            "CReDEs_mapping_path": "/home/xuhaitong/projects/temp/transfer_CRF/data/Mapping_file/胸科ETT.csv"
         },
         "store_transfer_data": {
-            "store_transfer_data_path_dir": "/home/xuhaitong/projects/temp/transfer_CRF/ablation_study/output/jy_v2",
+            "store_transfer_data_path_dir": "/home/xuhaitong/projects/temp/transfer_CRF/output/xk",
             "store_transfer_data_file_name": "blzd_CRF_alpaca.json"
         }
     },
@@ -69,6 +62,6 @@
         }
     },
     "log": {
-        "log_dir": "/home/xuhaitong/projects/temp/transfer_CRF/logs/ablation_study_v2"
+        "log_dir": "/home/xuhaitong/projects/temp/transfer_CRF/logs/xk_log"
     }
 }
